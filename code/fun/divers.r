@@ -34,7 +34,10 @@
 .ac=function(...){as.character(...)}
 
 ####### as.numeric
-.an=function(...){as.numeric(...)}
+.an=function(...,warning=TRUE){
+    if(warning){as.numeric(...)
+    }else{suppressWarnings(as.numeric(...))}
+    }
 
 ####### as.numeric of names of table
 .annt=function(vector){as.numeric(names(table((vector))))}
@@ -68,30 +71,95 @@
 
 ################################################################################
 .o=function(){graphics.off()}
-    # kill all gfaphics
+    # kill all graphics
 
-######## cbind.files.fun used in radio and tv-research 
-.cbf=function(list.files,path=F,name.loaded.file="mx.g.zt"){
-	# - list.files: list of files to bind
-	# - path=T: on doit loader un fichier
-	# - path=F: le fichier est dans .GlobalEnv
-	# - name.loaded.file = nom du fichier loadé
-	n.files=length(list.files)
-	out=NULL
-	for(filew in 1:n.files){
-		if(path){
-		load(list.files[filew])
-		if(filew>1&name.loaded.file=="mx.k.zt"){mx.k.zt=mx.k.zt+prod(dim(out))}
-		out=cbind(out,get(name.loaded.file))
-		}else{
-		out=cbind(out,get(list.files[filew]))
-		}# end else
-		}# end filew
-	out=out[,order(as.numeric(colnames(out)))]
-	out
-	}
 
 ######### expit function
 .expit = function(x){exp(x)/(1+exp(x))}
-         
-            
+
+######### .logit function
+.logit = function(p){log(p/(1-p))}
+
+######### trunc function (useful for names)
+.trunc = function(x){
+    # transform "abc def gh     " to "abc def gh" 
+    # x = "abc def gh     "
+    .trunc0 = function(x){
+        if(is.character(x)){
+            if(!is.na(x)){
+                pos = max(which(is.na(match(1:nchar(x),gregexpr(" ",x)[[1]]))))
+                substr(x,1,pos)
+            }else{
+                NA
+            }
+        }else{
+            NA
+        }
+        }
+    #
+    sapply(x,.trunc0) 
+    } 
+
+######## id -> function
+.idf = function(input,name=NULL){
+    # warnings
+    w1 = ifelse(class(input)=="table",
+                length(unique(names(input)))!=length(input),
+                length(unique(input))!=length(input))
+    w2 = is.null(name)
+    if(w1|w2){
+        if(w1){.w("duplicted id not allowed")}
+        if(w2){.w("name can't be empty")}
+    }else{
+        # elements
+        n = length(input)
+        if(class(input)=="table"){
+            id = names(input)
+            if(all(!is.na(.an(id)))){id = .ac(id[order(.an(id))])}
+        }else{id = input}
+        id = data.frame(pos=1:n,id=.ac(id),stringsAsFactors=FALSE,
+                        row.names=id)
+        if(class(input)=="table"){
+            id$n = unlist(c(input))
+            if(!any(is.na(.an(names(input),warning=FALSE)))){id$value = .an(names(input),warning=FALSE)}
+        }else{
+            if(!any(is.na(.an(input,warning=FALSE)))){id$value = .an(input,warning=FALSE)}
+            }
+        # save
+        assign(.p("n.",name),n,pos=.GlobalEnv)
+        assign(.p("id.",name),id,pos=.GlobalEnv)  
+        }
+    }
+
+######## id -> element
+.ide = function(x){
+    c(apropos("^id[.]"),apropos("^n[.]"))    
+    }
+
+    
+######## 
+.date = function(x)format(Sys.time(), "%Y%m%d")
+
+######## for title, add stuff
+.fill = function(x,npos=NULL,with=" ",front=TRUE){
+    # x=1; npos=3; with=0;front=TRUE
+    .fill0 = function(x,npos=2,with=" ",front=TRUE){
+        # x=1; npos=3; with=0;front=TRUE
+        x = .ac(x)
+        if(nchar(x)>npos){
+            .w("nchar(x)>pos banane")
+            .ac(x)
+        }else{
+        if(nchar(x)==npos){
+            .ac(x)
+        }else{       
+            .p(if(front){.p(rep(with,npos-nchar(x)),collapse="")},
+               .ac(x),
+               if(!front){.p(rep(with,npos-nchar(x)),collapse="")},
+               collapse="")
+        }}
+        }
+    #
+    sapply(x,.fill0,npos=ifelse(is.null(npos),max(nchar(x)),npos),with=with,front=front)
+    }
+

@@ -1,18 +1,26 @@
 
 
-.sectotime = function(n.sec){
-    hms=as.character(c(floor(n.sec/60/60),floor(n.sec/60-60*floor(n.sec/60/60)),
-      floor(n.sec-60*60*floor(n.sec/60/60)-60*floor(n.sec/60-60*floor(n.sec/60/60)))))
-    paste(sapply(hms,function(x)if(nchar(x)==1){paste("0",x,sep="")}else{x}),collapse=":")
-    }
-
-.timetosec=function(x){
-    hh = floor(x/10000)
-    mm = floor((x-hh*10000)/100)
-    ss = x-hh*10000-mm*100
-    hh*3600+mm*60+ss
-    }
     
+######## cbind.files.fun used in radio and tv-research 
+.cbf=function(list.files,path=F,name.loaded.file="mx.g.zt"){
+	# - list.files: list of files to bind
+	# - path=T: on doit loader un fichier
+	# - path=F: le fichier est dans .GlobalEnv
+	# - name.loaded.file = name of the loaded file
+	n.files=length(list.files)
+	out=NULL
+	for(filew in 1:n.files){
+		if(path){
+		load(list.files[filew])
+		if(filew>1&name.loaded.file=="mx.k.zt"){mx.k.zt=mx.k.zt+prod(dim(out))}
+		out=cbind(out,get(name.loaded.file))
+		}else{
+		out=cbind(out,get(list.files[filew]))
+		}# end else
+		}# end filew
+	out=out[,order(as.numeric(colnames(out)))]
+	out
+	}
 
 
 
