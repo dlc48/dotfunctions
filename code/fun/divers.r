@@ -34,7 +34,7 @@
 .ac=function(...){as.character(...)}
 
 ####### as.numeric
-.an=function(...,warning=TRUE){
+.an=function(...,warning=FALSE){
     if(warning){as.numeric(...)
     }else{suppressWarnings(as.numeric(...))}
     }
@@ -139,6 +139,10 @@
     
 ######## 
 .date = function(x)format(Sys.time(), "%Y%m%d")
+
+######## 
+.ad = function(x)as.Date(x)
+
 
 ######## for title, add stuff
 .fill = function(x,npos=NULL,with=" ",front=TRUE){
