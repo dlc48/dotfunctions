@@ -121,9 +121,9 @@
                         row.names=id)
         if(class(input)=="table"){
             id$n = unlist(c(input))
-            if(!any(is.na(.an(names(input),warning=FALSE)))){id$value = .an(names(input),warning=FALSE)}
+            if(!any(is.na(suppressWarnings(.an(names(input),warning=FALSE))))){id$value = .an(names(input),warning=FALSE)}
         }else{
-            if(!any(is.na(.an(input,warning=FALSE)))){id$value = .an(input,warning=FALSE)}
+            if(!any(is.na(suppressWarnings(.an(input,warning=FALSE))))){id$value = .an(input,warning=FALSE)}
             }
         # save
         assign(.p("n.",name),n,pos=.GlobalEnv)
