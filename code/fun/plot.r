@@ -18,6 +18,23 @@
     ## then use it:
     # > barplot(rep(1,25),col=pal.fun(25))
 
+###############################################################################
+.circle = function(x,plot=TRUE,...){
+    ## x is a vector of
+    # x[1]: x-coordinate
+    # x[2]: y-coordinate
+    # x[3]: radius
+    theta = seq(0, 2 * pi, length = 200) # angles for drawing points around the circle
+    out   = data.frame(x = as.numeric(x[3]) * cos(theta) + as.numeric(x[1]),
+                       y = as.numeric(x[3]) * sin(theta) + as.numeric(x[2]))
+    if(plot){
+        lines(x = out$x, out$y, ...)
+    }else{
+        out
+    }
+}
+
+
 ################################################################################
 .axis = function(data, split, side = 3, at.y = NULL, 
                  col.abline = "gray", col.label = "blue", col.axis="blue",

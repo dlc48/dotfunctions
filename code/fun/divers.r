@@ -1,3 +1,18 @@
+####### head
+.h=function(x,size=c(10,10,2)){
+   dimx  = dim(x) 
+   size  = size[1:min(length(dimx),length(size))]
+   for(sw in 1:length(size)){
+       size[sw] = min(dimx[sw],size[sw])
+   }
+   # matrix
+   if(length(size)==2){
+      x[1:size[1],1:size[2]]
+   # array
+   }else{
+      x[1:size[1],1:size[2],1:size[3]]    
+   }
+}
 
 
 ####### evaluate "character"-Rcommand 
