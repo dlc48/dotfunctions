@@ -1,6 +1,9 @@
+#' .sig
+#'
+#' sig -> star system for p-values
+#' @param pval p-value
+#' @export
 
-
-######### sig -> star system for p-values
 .sig = function(pval){
     out = rep("",length(pval))
     out[pval<=  .1 & !is.na(pval)] = "."
@@ -9,8 +12,14 @@
     out[pval<=.001 & !is.na(pval)] = "***"
     out
     }
-    
-######### for printing purposes, change 1e-299 into <0.0001
+
+#' .pval
+#'
+#' For printing purposes, change 1e-299 into <0.0001
+#' @param pval p-value
+#' @param digit number of digits for rounding rule
+#' @export
+
 .pval = function(pval,digit=4){
     out = format(c(.an(.p("0.",.p(rep(1,digit),collapse=""))),round(pval,digits=digit)))[-1]
     out[is.na(pval)] = ""
@@ -18,34 +27,27 @@
     out
     }
 
-######### print in a text file
+#########
+#' .tex
+#'
+#' Print in a text file
+#' @param input the table, including rownames and colnames
+#' @param file the name of the tex file
+#' @param cmidrule a matrix of same size as input with non-NA entries
+#'  for position with a cmidrule. Example: c(NA,1,1,2,2) for a given row
+#' @param col.row colour of each row
+#' @param col.col colour of each column
+#' @param pos.textbfrow position of the rows with bold names
+#' @param pos.textbfcol position of the columns with bold names
+#' @param pos.centeredrow position of the columns which should be centered in row
+#' @param pos.centeredcol position of the rows which should be centered in column
+#' @export
+
 .tex = function(input,file=NULL,cmidrule=NULL,
                 col.row=NULL,col.col=NULL,
                 pos.textbfrow=NULL,pos.textbfcol=NULL,
                 pos.centeredrow=NULL,pos.centeredcol=NULL){
-    # ARGUMENTS:
-    # - input: the table, including rownames and colnames
-    # - file: the name of the tex file
-    # - cmidrule: a matrix of same size as input with non-NA entries 
-    #             for position with a cmidrule 
-    #             exemple: c(NA,1,1,2,2) for a given row
-    # - col.row/col.col: colour of each row/column
-    # - pos.textbfrow/pos.textbfcol: position of the rows with bold names
-    # - pos.centeredrow: position of the rows which should be centered in column
-    # - pos.centeredcol: position of the columns which should be centered in row
-    #                    (! a column centering should be obtained by \begin{tabular}{ccc})
-    
-    ## test:
-    #input = tablew 
-    #col.row = rep(c("drawColor4","drawColor1",NA),c(1,1,nrow(tablew)-2))
-    #col.col = rep(c("drawColor4",NA),c(1,ncol(tablew)-1))
-    #pos.textbfrow = c(1)
-    #pos.textbfcol = c(1)
-    #pos.centeredrow = c(1)
-    #pos.centeredcol = NULL
-    #file = filename
-    #cmidrule=NULL
-    
+
     # size
     n = nrow(input)
     p = ncol(input)
@@ -144,17 +146,17 @@
                     }
                 }
             }
-            
+
         # print
-        #cat("print\t")        
+        #cat("print\t")
         inputw = sapply(inputw,function(x)gsub("&", "\\\\&", x))
         textw = .p(.p(sapply(.ac(inputw),function(x)if(is.na(x)){" "}else{x}),
                    collapse=" & "), " \\tabularnewline",collapse=" ")
-        textw = gsub("_", "\\\\_", textw)               
+        textw = gsub("_", "\\\\_", textw)
         textw = gsub("-", "$-$", textw)
-        textw = gsub("<", "$<$", textw)    
-        textw = gsub(">", "$>$", textw)    
-        textw = gsub("%", "\\\\%", textw)        
+        textw = gsub("<", "$<$", textw)
+        textw = gsub(">", "$>$", textw)
+        textw = gsub("%", "\\\\%", textw)
         write(textw,file=file,append=ifelse(i==1,FALSE,TRUE))
         #cat("\n")
         }

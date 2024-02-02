@@ -1,12 +1,13 @@
+#' .cbf
+#'
+#' cbind.files.fun used in radio and tv-research
+#' @param list.files list of files to bind
+#' @param path path=T: on doit loader un fichier; path=F: le fichier est dans .GlobalEnv
+#' @param name.loaded.file  name.loaded.file = name of the loaded file
+#' @export
 
-
-    
-######## cbind.files.fun used in radio and tv-research 
 .cbf=function(list.files,path=F,name.loaded.file="mx.g.zt"){
-	# - list.files: list of files to bind
-	# - path=T: on doit loader un fichier
-	# - path=F: le fichier est dans .GlobalEnv
-	# - name.loaded.file = name of the loaded file
+
 	n.files=length(list.files)
 	out=NULL
 	for(filew in 1:n.files){

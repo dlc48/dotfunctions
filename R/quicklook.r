@@ -1,22 +1,21 @@
-
-# allows a better look on object
+#' .ql
+#'
+#' allows a better look on object
+#' @param obj R object
+#' @param dim1 max number of rows
+#' @param dim2 max number of columns
+#' @param dim3 max number of deepth (array)
+#' @param length.vector max length of a vector
+#' @param length.list max length of a list
+#' @param digit rounding
+#' @param inf.col "all", "sample","no"
+#' @param inf.list "all", "sample","no"
+#' @param full by default is TRUE
+#' @export
 
 .ql=function(obj,dim1=10,dim2=6,dim3=2,length.vector=24,length.list=5,
              digit=3,inf.col="all",inf.list="sample",full=TRUE){
-    ### Aruments
-    # dim1 = max number of rows
-    # dim2 = max number of columns
-    # dim3 = max number of deepth (array)
-    # length.vector = max length of a vector 
-    # length.list = max length of a list
-    # digit = rounding
-    # inf.col = "all", "sample","no"
-    # inf.list = "all", "sample","no"
-   # obj=COMBINED
-   # dim1=10;dim2=6;dim3=2;length.vector=24;length.list=5;
-   # digit=3;inf.col="sample";inf.list="sample";full=F
-   # nameobj = "toto"    
-    #
+
     nameobj=deparse(match.call()[[2]])
     cl=class(obj)
     # max dim and length for vectors, matrices, dataframes, arrays and lists
@@ -129,7 +128,7 @@
     ###
     #if(cl=="array"){
     #    }
-    
+
     ###
     ### VECTORS AND SCALARS
     ###
@@ -151,7 +150,7 @@
                 cat("-> length : ",length.vectorw,"\n",sep="")
                 cat("\nPRINT \n\n")
                 print(obj)
-                cat("\n")            
+                cat("\n")
             }
             }
         # if length.vector>1
@@ -253,5 +252,5 @@
     ### end
     cat("\n",paste(rep("-", .Options$width),collapse=""),"\n\n",sep="")
     }
-        
-    
+
+

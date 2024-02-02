@@ -1,12 +1,20 @@
 
 
 ###################################################################################
-# for k >= 2  
+# for k >= 2
 ###################################################################################
 
+#' .coord
+#'
+#' @param n.dk avec d pour desire et k = 1...n.k
+#' @param n.tk avec t pour total  et k = 1...n.k
+#'
+#' @return sum(temp)
+#' @export
+
 .coord=function(n.dk,n.tk){
-	# n.dk = vecteur des coordonnees desirees   (n.dk avec d pour desire et k = 1...n.k )	
-	# n.tk = vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )	
+	# n.dk = vecteur des coordonnees desirees   (n.dk avec d pour desire et k = 1...n.k )
+	# n.tk = vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )
 	# n.k = nbre total de dim et k une dim quelquonque
 	n.k=length(n.tk)
 	if(n.k!=length(n.dk)){stop("coord and dimarray are different length")}
@@ -28,14 +36,22 @@
 #arry=array(1:prod(n.tk),n.tk)
 
 
+#' .coordr
+#'
+#' @param kd position dans k dim desiree   (1 < kd < prod(n.tk))
+#' @param n.tk vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )
+#'
+#' @return out
+#' @export
+
 .coordr=function(kd,n.tk){
-	# kd = position dans k dim desiree   (1 < kd < prod(n.tk))				
-	# n.tk = vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )	
+	# kd = position dans k dim desiree   (1 < kd < prod(n.tk))
+	# n.tk = vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )
 	# n.k = nbre total de dim et k une dim quelquonque
 	n.k=length(n.tk)
 	n.dk=rep(NA,n.k-1)
 	krd=kd
-	# calc 
+	# calc
 	for(kw in n.k:2){
 		n.dk[kw-1]=ceiling(krd/prod(n.tk[1:(kw-1)]))
 		krd=krd-(n.dk[kw-1]-1)*prod(n.tk[1:(kw-1)])
