@@ -34,7 +34,3 @@ devtools::build(binary=FALSE)
 
 
 
-
-# build: NO NEED IF INSTALLED FROM GITHUB
-# devtools::build(binary=FALSE)
-
