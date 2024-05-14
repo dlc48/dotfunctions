@@ -1,8 +1,6 @@
 #' .ep
 #'
-#'     First define a function generating the colors you want
-#'     pal.fun = .col() # pick what is suitable (n doesn't matter)
-#'     then use it.
+#' defines an empty plot (base R)
 #' @param xlim  xlim
 #' @param ylim  ylim
 #' @export

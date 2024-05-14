@@ -9,7 +9,7 @@
 
 #' .xls
 #'
-#'Import xls data
+#' Import xls data
 #' @param file input Excel file
 #' @param sheet sheet
 #' @param skip skip rows

@@ -2,19 +2,21 @@
 #'
 #' allows a better look on object
 #' @param obj R object
-#' @param dim1 max number of rows
-#' @param dim2 max number of columns
-#' @param dim3 max number of deepth (array)
+#' @param dim1 max number of rows to display
+#' @param dim2 max number of columns to display
+#' @param dim3 max number of dimensions to display for array
 #' @param length.vector max length of a vector
 #' @param length.list max length of a list
 #' @param digit rounding
-#' @param inf.col "all", "sample","no"
-#' @param inf.list "all", "sample","no"
+#' @param inf.col "all" (default), "sample","none"
+#' @param inf.list "all" (default), "sample","none"
 #' @param full by default is TRUE
 #' @export
 
-.ql=function(obj,dim1=10,dim2=6,dim3=2,length.vector=24,length.list=5,
+.ql=function(obj,dim1=10,dim2=6,dim3=3,length.vector=24,length.list=5,
              digit=3,inf.col="all",inf.list="sample",full=TRUE){
+
+# obj = matrix(1:10,ncol=2); dim1=10;dim2=6;dim3=3;length.vector=24;length.list=5; digit=3;inf.col="all";inf.list="sample";full=TRUE
 
     nameobj=deparse(match.call()[[2]])
     cl=class(obj)
@@ -28,7 +30,7 @@
     ###
     ### MATRIX OR DATAFRAME
     ###
-    if(cl=="matrix"|cl=="data.frame"){
+    if(cl[1]=="matrix"|cl[1]=="data.frame"){
         # info
         # if all numeric...: check for inf and percentage of negative vs positive values.
         dimobj=dim(obj)
@@ -74,7 +76,7 @@
             }
         }
         #### INFO ABOUT COLUMNS OF OBJ
-        if(inf.col!="no"){
+        if(inf.col!="none"){
             if(inf.col=="all"){colw=1:dimobj[2]}
             if(inf.col=="sample"){
                 if(dimobj[2]>dim2){colw=c(1:dim2b,(dimobj[2]-dim2b+1):dimobj[2])
@@ -111,22 +113,25 @@
         if(all(colclass=="numeric")|
            all(colclass=="integer")|
            all(colclass=="double")){
-        cat("-> Inf    : ",sum(infw)," total (",sum(infw>0)," columns)\n",sep="")
-        cat("-> -/+    : ",negposw[1],"% / ",negposw[2],"%\n",sep="")
-        }
+            cat("-> Inf    : ",sum(infw)," total (",sum(infw>0)," columns)\n",sep="")
+            cat("-> -/+    : ",negposw[1],"% / ",negposw[2],"%\n",sep="")
+            }
         cat("\nSAMPLE of ",cl,"\n\n",sep="")
         print(obj2)
         cat("\n")
-        if(inf.col!="no"){
-        cat("COLUMNS of ",cl,"\n\n",sep="")
-        print(matx.inf.col)
-        cat("\n")
-        }
+        if(inf.col!="none"){
+            cat("COLUMNS of ",cl,"\n\n",sep="")
+            print(matx.inf.col)
+            cat("\n")
+            }
     }
     ###
     ### Arrays
     ###
     #if(cl=="array"){
+    #    for(dw in 1:dim3){
+    #        obja = obj[,,3]
+    #        }
     #    }
 
     ###
