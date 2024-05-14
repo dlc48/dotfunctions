@@ -12,8 +12,5 @@
 \item{ylim}{ylim}
 }
 \description{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{First define a function generating the colors you want
-pal.fun = .col() # pick what is suitable (n doesn't matter)
-then use it.
-}\if{html}{\out{</div>}}
+defines an empty plot (base R)
 }

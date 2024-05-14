@@ -10,5 +10,5 @@
 \item{file}{input Excel file}
 }
 \description{
-Read excel sheet names
+print the names of the sheets of an excel file. Output is a vector of class 'character'.
 }

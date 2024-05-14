@@ -7,8 +7,11 @@
 .sig(pval)
 }
 \arguments{
-\item{pval}{p-value}
+\item{pval}{vector of p-values}
 }
 \description{
-sig -> star system for p-values
+star system for p-values. Output is a vector of class 'character'.
+}
+\examples{
+.sig(c(0,0.01,0.05,0.1,1))
 }

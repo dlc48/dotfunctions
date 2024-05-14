@@ -20,5 +20,5 @@
 \item{...}{...}
 }
 \description{
-Import xls data
+import xls data. Output is of class 'data.frame'. The workhorse is 'readxl::read_excel' with 'guess' based on a large number of entries (not the default to avoid problems).
 }

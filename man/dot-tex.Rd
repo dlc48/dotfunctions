@@ -19,7 +19,7 @@
 \arguments{
 \item{input}{the table, including rownames and colnames}
 
-\item{file}{the name of the tex file}
+\item{file}{the name and path of the tex file}
 
 \item{cmidrule}{a matrix of same size as input with non-NA entries
 for position with a cmidrule. Example: c(NA,1,1,2,2) for a given row}
@@ -37,5 +37,5 @@ for position with a cmidrule. Example: c(NA,1,1,2,2) for a given row}
 \item{pos.centeredcol}{position of the rows which should be centered in column}
 }
 \description{
-Print in a text file
+defines the centre part of the tex code corresponding to a Table (and typically called, in TeX, via the input function). the input is a matrix with row and column names.
 }

@@ -7,10 +7,13 @@
 .pval(pval, digit = 4)
 }
 \arguments{
-\item{pval}{p-value}
+\item{pval}{vector of p-values}
 
 \item{digit}{number of digits for rounding rule}
 }
 \description{
-For printing purposes, change 1e-299 into <0.0001
+print function for p-values, change 1e-299 into <0.0001. Output is a vector of class 'character' with a fixed number of postions after the comma.
+}
+\examples{
+.pval(c(0,0.01,0.05,0.1,1))    
 }

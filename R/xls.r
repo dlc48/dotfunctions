@@ -1,6 +1,6 @@
 #' Title
 #'
-#' Read excel sheet names
+#' print the names of the sheets of an excel file. Output is a vector of class 'character'.
 #' @param file input Excel file
 #' @export
 .xlss = function(file){
@@ -9,7 +9,7 @@
 
 #' .xls
 #'
-#' Import xls data
+#' import xls data. Output is of class 'data.frame'. The workhorse is 'readxl::read_excel' with 'guess' based on a large number of entries (not the default to avoid problems).
 #' @param file input Excel file
 #' @param sheet sheet
 #' @param skip skip rows

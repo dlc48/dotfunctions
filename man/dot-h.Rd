@@ -7,10 +7,16 @@
 .h(x, size = c(10, 10, 2))
 }
 \arguments{
-\item{x}{R object}
+\item{x}{R object to}
 
-\item{size}{size of teh output}
+\item{size}{size of the output}
 }
 \description{
-.h
+prints the first dimensions of an array (up to size 3), matrix or data frame. Less busy people may consider the function head().
+}
+\examples{
+dimw = c(10,20,30) 
+arw  = array(1:prod(dimw),dimw)
+.h(arw) 
+.h(.adf(arw[,,1]))
 }

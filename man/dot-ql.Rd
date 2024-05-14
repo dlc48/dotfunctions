@@ -8,7 +8,7 @@
   obj,
   dim1 = 10,
   dim2 = 6,
-  dim3 = 2,
+  dim3 = 3,
   length.vector = 24,
   length.list = 5,
   digit = 3,
@@ -20,11 +20,11 @@
 \arguments{
 \item{obj}{R object}
 
-\item{dim1}{max number of rows}
+\item{dim1}{max number of rows to display}
 
-\item{dim2}{max number of columns}
+\item{dim2}{max number of columns to display}
 
-\item{dim3}{max number of deepth (array)}
+\item{dim3}{max number of dimensions to display for array}
 
 \item{length.vector}{max length of a vector}
 
@@ -32,9 +32,9 @@
 
 \item{digit}{rounding}
 
-\item{inf.col}{"all", "sample","no"}
+\item{inf.col}{"all" (default), "sample","none"}
 
-\item{inf.list}{"all", "sample","no"}
+\item{inf.list}{"all" (default), "sample","none"}
 
 \item{full}{by default is TRUE}
 }

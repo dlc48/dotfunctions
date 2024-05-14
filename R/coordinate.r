@@ -4,20 +4,20 @@
 # for k >= 2
 ###################################################################################
 
-#' .coord
-#'
-#' @param n.dk avec d pour desire et k = 1...n.k
-#' @param n.tk avec t pour total  et k = 1...n.k
-#'
-#' @return sum(temp)
+#' @name .coord
+#' @title coordinate function 
+#' @description gives the matrix or array position corresponding to the coordinates of interest. Allows fast filling of arrays (via pointers). 
+#' @param n.dk vector of integers indicating the coordinates of interest of a matrix or array. The vector length should match the dimension of the object of interest.
+#' @param n.tk vector of integers indicating the dimension of the array of interest, typically dim(obj), where obj is the object of interest.
+#' @returns output is a (numeric) scalar.  
 #' @export
-
+#' @examples
+#' dimw = c(10,20,30,4) 
+#' arw  = array(1:prod(dimw),dimw)
+#' arw[.coord(c(10,20,15,3),dim(arw))] == .coord(c(10,20,15,3),dim(arw))
 .coord=function(n.dk,n.tk){
-	# n.dk = vecteur des coordonnees desirees   (n.dk avec d pour desire et k = 1...n.k )
-	# n.tk = vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )
-	# n.k = nbre total de dim et k une dim quelquonque
 	n.k=length(n.tk)
-	if(n.k!=length(n.dk)){stop("coord and dimarray are different length")}
+	if(n.k!=length(n.dk)){stop("n.dk and n.tk have different lengths")}
 	for(k in 1:n.k){if(n.dk[k]>n.tk[k]){stop(cat("in dim", k, "n.dk > n.tk  :"))}}
 	# calc
 	temp=rep(n.dk[1],n.k)
@@ -26,28 +26,20 @@
 	}
 
 
-
-## tests:
-#dimw=c(10,20,30,4)
-#arry=array(1:prod(dimw),dimw)
-#arry[coordkdim.fun(c(10,20,15,3),dimw)];coordkdim.fun(c(10,20,15,3),dimw)
-
-#n.tk=c(5,3,2)
-#arry=array(1:prod(n.tk),n.tk)
-
-
-#' .coordr
-#'
-#' @param kd position dans k dim desiree   (1 < kd < prod(n.tk))
-#' @param n.tk vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )
-#'
-#' @return out
+#' @name .coordr
+#' @title reverse coordinate function 
+#' @description reverse of the .coord() function: gives coordinates corresponding to a position of interest. 
+#' @param kd position of interest
+#' @param n.tk vector of integers indicating the dimension of the array of interest, typically dim(obj), where obj is the object of interest.
+#' @returns Output is a vector of scalars of length matching the dimension of the array. 
 #' @export
-
+#' @examples
+#' dimw = c(10,20,30,4) 
+#' arw  = array(1:prod(dimw),dimw)
+#' pos  = 768
+#' n.dk = .coordr(pos,dim(arw))	
+#' arw[n.dk[1],n.dk[2],n.dk[3],n.dk[4]] == pos
 .coordr=function(kd,n.tk){
-	# kd = position dans k dim desiree   (1 < kd < prod(n.tk))
-	# n.tk = vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )
-	# n.k = nbre total de dim et k une dim quelquonque
 	n.k=length(n.tk)
 	n.dk=rep(NA,n.k-1)
 	krd=kd
@@ -61,10 +53,6 @@
 	out
 	}
 
-## tests:
-#n.tk=c(5,4,3,2)
-#arry=array(1:prod(n.tk),n.tk)
-#kd=arry[4,3,2,2];kd;coordkdim.rfun(kd,n.tk)
 
 
 

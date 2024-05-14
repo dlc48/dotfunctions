@@ -1,4 +1,4 @@
-# cd /Users/Shared/code/r/source/git_dotfunctions/
+# cd /Users/Shared/code/r/packages/git_dotfunctions
 # R --vanilla
 
 rm(list=ls())
@@ -12,14 +12,10 @@ rm(list=ls())
 devtools::document() 
 
 
-############################################
-# github installation:
 
-# PUSH and then use
-devtools::install_github("dlc48/dotfunctions", auth_token = "XXXX")
-# where "auth_token" is generated from github.com
-# -> dlc48 / settings / Developer settings / Personal access token / 
-#    Tokens (classic) / generate new token 
+############################################
+# local install (temporary files for test): 
+devtools::load_all()
 
 
 ############################################
@@ -33,4 +29,13 @@ devtools::build(binary=FALSE)
     R CMD INSTALL dotfunctions_1.0.0.tar.gz
 
 
+
+############################################
+# github installation:
+
+# PUSH and then use
+devtools::install_github("dlc48/dotfunctions", auth_token = "XXXX")
+# where "auth_token" is generated from github.com
+# -> dlc48 / settings / Developer settings / Personal access token / 
+#    Tokens (classic) / generate new token 
 

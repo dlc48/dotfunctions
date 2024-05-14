@@ -2,18 +2,25 @@
 % Please edit documentation in R/coordinate.r
 \name{.coordr}
 \alias{.coordr}
-\title{.coordr}
+\title{reverse coordinate function}
 \usage{
 .coordr(kd, n.tk)
 }
 \arguments{
-\item{kd}{position dans k dim desiree   (1 < kd < prod(n.tk))}
+\item{kd}{position of interest}
 
-\item{n.tk}{vecteur des dim de l-array de base (n.tk avec t pour total  et k = 1...n.k )}
+\item{n.tk}{vector of integers indicating the dimension of the array of interest, typically dim(obj), where obj is the object of interest.}
 }
 \value{
-out
+Output is a vector of scalars of length matching the dimension of the array.
 }
 \description{
-.coordr
+reverse of the .coord() function: gives coordinates corresponding to a position of interest.
+}
+\examples{
+dimw = c(10,20,30,4) 
+arw  = array(1:prod(dimw),dimw)
+pos  = 768
+n.dk = .coordr(pos,dim(arw))	
+arw[n.dk[1],n.dk[2],n.dk[3],n.dk[4]] == pos
 }

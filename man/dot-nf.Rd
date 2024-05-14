@@ -7,10 +7,10 @@
 .nf(file)
 }
 \arguments{
-\item{file}{a dataframe or a matrix}
+\item{file}{a dataframe}
 }
 \description{
-the function ".nf" for "No Factor" transform "factor-vector
-of dataframe in "character" (when importing a dataset with read,
-more elegant to use stringsAsFactors=FALSE)
+.nf() stands for 'No (bloody) factors' and change columns of class 'factor' of a data frame into columns of class 'character'.
+Since read.csv() \link{and equivalent functions} changes the default of the argument 'stringsAsFactors' to FALSE, .nf() is less useful.
+Returns a data frame of same size as input but without factors.
 }

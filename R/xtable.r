@@ -1,8 +1,10 @@
 #' .sig
 #'
-#' sig -> star system for p-values
-#' @param pval p-value
+#' star system for p-values. Output is a vector of class 'character'.
+#' @param pval vector of p-values
 #' @export
+#' @examples
+#' .sig(c(0,0.01,0.05,0.1,1))
 
 .sig = function(pval){
     out = rep("",length(pval))
@@ -15,11 +17,12 @@
 
 #' .pval
 #'
-#' For printing purposes, change 1e-299 into <0.0001
-#' @param pval p-value
+#' print function for p-values, change 1e-299 into <0.0001. Output is a vector of class 'character' with a fixed number of postions after the comma.
+#' @param pval vector of p-values
 #' @param digit number of digits for rounding rule
+#' @examples
+#' .pval(c(0,0.01,0.05,0.1,1))    
 #' @export
-
 .pval = function(pval,digit=4){
     out = format(c(.an(.p("0.",.p(rep(1,digit),collapse=""))),round(pval,digits=digit)))[-1]
     out[is.na(pval)] = ""
@@ -30,9 +33,9 @@
 #########
 #' .tex
 #'
-#' Print in a text file
+#' defines the centre part of the tex code corresponding to a Table (and typically called, in TeX, via the input function). the input is a matrix with row and column names.
 #' @param input the table, including rownames and colnames
-#' @param file the name of the tex file
+#' @param file the name and path of the tex file
 #' @param cmidrule a matrix of same size as input with non-NA entries
 #'  for position with a cmidrule. Example: c(NA,1,1,2,2) for a given row
 #' @param col.row colour of each row

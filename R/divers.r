@@ -1,10 +1,16 @@
 ####### head
 #' .h
 #'
-#' @param x R object
-#' @param size size of teh output
+#' prints the first dimensions of an array (up to size 3), matrix or data frame. Less busy people may consider the function head().
+#' @param x R object to 
+#' @param size size of the output
 #'
 #' @export
+#' @examples
+#' dimw = c(10,20,30) 
+#' arw  = array(1:prod(dimw),dimw)
+#' .h(arw) 
+#' .h(.adf(arw[,,1]))
 .h=function(x,size=c(10,10,2)){
    dimx  = dim(x)
    size  = size[1:min(length(dimx),length(size))]
@@ -23,11 +29,13 @@
 
 #' .eval
 #'
-#' evaluate "character"-Rcommand
+#' evaluate an R expression based on an input of class 'character'. 
+#' Returns the output of the evaluation, whatever it is.
 #' @param expr expression
 #' @param ... other parameters
 #' @export
-
+#' @examples
+#' .eval('c(1,2)')
 .eval=function(expr,...){eval(parse(text = noquote(expr)),...)}
 
 
@@ -35,11 +43,11 @@
 
 #' .nf
 #'
-#' the function ".nf" for "No Factor" transform "factor-vector
-#' of dataframe in "character" (when importing a dataset with read,
-#' more elegant to use stringsAsFactors=FALSE)
+#' .nf() stands for 'No (bloody) factors' and change columns of class 'factor' of a data frame into columns of class 'character'. 
+#' Since read.csv() [and equivalent functions] changes the default of the argument 'stringsAsFactors' to FALSE, .nf() is less useful.
+#' Returns a data frame of same size as input but without factors.
 #'
-#' @param file a dataframe or a matrix
+#' @param file a dataframe 
 #' @export
 
 .nf=function(file){
