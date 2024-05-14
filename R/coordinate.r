@@ -1,9 +1,3 @@
-
-
-###################################################################################
-# for k >= 2
-###################################################################################
-
 #' @name .coord
 #' @title coordinate function 
 #' @description gives the matrix or array position corresponding to the coordinates of interest. Allows fast filling of arrays (via pointers). 
@@ -31,7 +25,7 @@
 #' @description reverse of the .coord() function: gives coordinates corresponding to a position of interest. 
 #' @param kd position of interest
 #' @param n.tk vector of integers indicating the dimension of the array of interest, typically dim(obj), where obj is the object of interest.
-#' @returns Output is a vector of scalars of length matching the dimension of the array. 
+#' @returns output is a vector of scalars of length matching the dimension of the array. 
 #' @export
 #' @examples
 #' dimw = c(10,20,30,4) 
