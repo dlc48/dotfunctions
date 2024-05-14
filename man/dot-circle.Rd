@@ -2,20 +2,23 @@
 % Please edit documentation in R/plot.r
 \name{.circle}
 \alias{.circle}
-\title{.circle}
+\title{circle function}
 \usage{
 .circle(x, plot = TRUE, ...)
 }
 \arguments{
-\item{x}{x is a vector of:
-x\link{1}: x-coordinate
-x\link{2}: y-coordinate
-x\link{3}: radius}
+\item{x}{x is a vector defined as follows x\link{1} =  centre x-coordinate, x\link{2} =  centre y-coordinate, x\link{3} = radius.}
 
-\item{plot}{plot}
+\item{plot}{a logical. use TRUE to plot or FALSE to save dataset of x and y coordinates of 200 points}
 
 \item{...}{...}
 }
 \description{
-.circle
+plot a circle based on coordinates of centre and radius. Note that circles may look like ellipses if the aspect ratio (argument 'asp' of plot) is different from 1
+}
+\examples{
+\donttest{
+.ep(asp=1)
+.circle(c(.5,.5,.25))
+}
 }

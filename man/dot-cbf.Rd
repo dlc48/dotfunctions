@@ -2,17 +2,20 @@
 % Please edit documentation in R/mediapulse.r
 \name{.cbf}
 \alias{.cbf}
-\title{.cbf}
+\title{cbind files function}
 \usage{
 .cbf(list.files, path = F, name.loaded.file = "mx.g.zt")
 }
 \arguments{
-\item{list.files}{list of files to bind}
+\item{list.files}{list of files to cbind}
 
-\item{path}{path=T: on doit loader un fichier; path=F: le fichier est dans .GlobalEnv}
+\item{path}{indicate path=TTRUE to load a file and path=FALSE if files are in GlobalEnv}
 
-\item{name.loaded.file}{name.loaded.file = name of the loaded file}
+\item{name.loaded.file}{name of the loaded files (typically 'mx.x.zt', for example)}
+}
+\value{
+combined matrix or data frame.
 }
 \description{
-cbind.files.fun used in radio and tv-research
+function used in radio and tv-research to combine files
 }

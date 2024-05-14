@@ -2,15 +2,22 @@
 % Please edit documentation in R/plot.r
 \name{.ep}
 \alias{.ep}
-\title{.ep}
+\title{empty plot function}
 \usage{
-.ep(xlim = c(0, 1), ylim = c(0, 1))
+.ep(xlim = c(0, 1), ylim = c(0, 1), ...)
 }
 \arguments{
 \item{xlim}{xlim}
 
 \item{ylim}{ylim}
+
+\item{...}{...}
 }
 \description{
-defines an empty plot (base R)
+generate an empty plot (no axes, no axe labels, no box, no points)
+}
+\examples{
+\donttest{
+.ep()
+}
 }

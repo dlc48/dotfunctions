@@ -2,7 +2,7 @@
 % Please edit documentation in R/xls.r
 \name{.xlss}
 \alias{.xlss}
-\title{Title}
+\title{shorcut}
 \usage{
 .xlss(file)
 }

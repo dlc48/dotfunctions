@@ -2,21 +2,25 @@
 % Please edit documentation in R/divers.r
 \name{.fill}
 \alias{.fill}
-\title{.fill
-for title, add stuff}
+\title{shortcut}
 \usage{
 .fill(x, npos = NULL, with = " ", front = TRUE)
 }
 \arguments{
-\item{x}{input R object}
+\item{x}{input vector of strings}
 
-\item{npos}{npos}
+\item{npos}{number of position to add, default to the max of the input vector}
 
-\item{with}{with}
+\item{with}{character to add (default is an empty space)}
 
-\item{front}{front}
+\item{front}{a logical indicating if the chracter is to add at the front (default)}
+}
+\value{
+a vector of strings (with added characters)
 }
 \description{
-.fill
-for title, add stuff
+for printing purposes, add characters of choice (0s or empty spaces, for example) to a vector of string. typically used to ensure ids have the same number of characters
+}
+\examples{
+.fill(1:20,with="0")
 }

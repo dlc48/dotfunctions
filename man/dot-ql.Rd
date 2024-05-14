@@ -2,7 +2,7 @@
 % Please edit documentation in R/quicklook.r
 \name{.ql}
 \alias{.ql}
-\title{.ql}
+\title{quick look function}
 \usage{
 .ql(
   obj,
@@ -39,5 +39,8 @@
 \item{full}{by default is TRUE}
 }
 \description{
-allows a better look on object
+generates a 'quick look' of R objects of different classes. Currently handles matrices, data frames, lists and vectors. Typically prints a subset of the object (first rows and columns for matrices, for example) and some relevant summaries (like the class, number of 0s and NAs, for each column of a data frame, for example)
+}
+\examples{
+.ql(.adfm(rnorm(100),ncol=4))
 }

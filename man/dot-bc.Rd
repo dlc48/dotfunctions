@@ -2,15 +2,19 @@
 % Please edit documentation in R/installpackages.r
 \name{.bc}
 \alias{.bc}
-\title{.bc}
+\title{shorcut}
 \usage{
 .bc(..., ask = TRUE)
 }
 \arguments{
-\item{...}{package}
+\item{...}{string indicating the name of the package to install}
 
-\item{ask}{ask}
+\item{ask}{logical indicating whether to prompt user before installed packages are updated (argument of BiocManager::install)}
+
+\item{dependencies}{logical for dependencies}
+
+\item{quiet}{logical for messages}
 }
 \description{
-install bioconductor packages
+function allowing to install and load bioconductor packages
 }

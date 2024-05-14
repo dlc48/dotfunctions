@@ -2,19 +2,19 @@
 % Please edit documentation in R/installpackages.r
 \name{.ip}
 \alias{.ip}
-\title{.ip}
+\title{shorcut}
 \usage{
 .ip(pkg, mirror = 1, dependencies = TRUE, quiet = FALSE)
 }
 \arguments{
-\item{pkg}{name of a package}
+\item{pkg}{string indicating the name of the package to install}
 
-\item{mirror}{source mirror}
+\item{mirror}{source mirror: 1 for ETH, any other number for Imperial}
 
-\item{dependencies}{dependencies}
+\item{dependencies}{logical for dependencies}
 
-\item{quiet}{suppress messages}
+\item{quiet}{logical for messages}
 }
 \description{
-note: files are stored under ">.libPaths"
+function allowing to install and load CRAN packages
 }

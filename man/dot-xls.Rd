@@ -2,7 +2,7 @@
 % Please edit documentation in R/xls.r
 \name{.xls}
 \alias{.xls}
-\title{.xls}
+\title{shorcut}
 \usage{
 .xls(file, sheet = NULL, skip = 0, col_names = TRUE, col_types = "guess", ...)
 }
@@ -18,6 +18,9 @@
 \item{col_types}{columnt types}
 
 \item{...}{...}
+}
+\value{
+object of class 'data.frame'
 }
 \description{
 import xls data. Output is of class 'data.frame'. The workhorse is 'readxl::read_excel' with 'guess' based on a large number of entries (not the default to avoid problems).

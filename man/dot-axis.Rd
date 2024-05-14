@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.r
 \name{.axis}
 \alias{.axis}
-\title{.axis}
+\title{axis function}
 \usage{
 .axis(
   data,
@@ -23,8 +23,7 @@
 )
 }
 \arguments{
-\item{data}{a file ('id.t'-like] with a column 'pos' (position on the xaxis),
-typically 1 to nrow for a split at the full file level}
+\item{data}{a file ('id.x'-like) with a column 'pos' (position on the xaxis), typically 1 to nrow for a split at the full file level}
 
 \item{split}{a factor (typically year/month, school/class, aso)}
 
@@ -53,18 +52,8 @@ at 'at.y' on the y-axis}
 
 \item{label}{label}
 
-\item{...}{...}
+\item{...}{other useful arguments: cex for the cex of labels in axis() and text(), lty for the lty in abline(), padj or hadj for the adjustment of the location of the label in axis()}
 }
 \description{
-Helper for axis
-}
-\details{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{OTHER useful arguments [sometimes passed through '...']
-cex: cex of labels in axis() and text() [cex.axis]
-lty: lty in abline()
-padj (hadj): adjustment of the location of the label in axis()
-orientation of the label in axis()
-orientation of the label in text() if at.y != NULL
-y-position of the x-axis in axis()
-}\if{html}{\out{</div>}}
+create fancy plot axes (typically based on an id file).
 }

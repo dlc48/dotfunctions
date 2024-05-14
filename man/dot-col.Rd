@@ -2,11 +2,18 @@
 % Please edit documentation in R/plot.r
 \name{.col}
 \alias{.col}
-\title{.col}
+\title{colour shortcut function}
 \usage{
 .col()
 }
+\value{
+a function generating the colours of interest
+}
 \description{
-first define a function generating the colors you want
-pal.fun = .col() # pick what is suitable (n doesn't matter)
+create a function generating the colours or interest
+}
+\examples{
+\donttest{
+pal.fun = .col()
+}
 }
