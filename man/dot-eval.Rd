@@ -2,7 +2,7 @@
 % Please edit documentation in R/divers.r
 \name{.eval}
 \alias{.eval}
-\title{.eval}
+\title{evaluation function}
 \usage{
 .eval(expr, ...)
 }
@@ -11,9 +11,11 @@
 
 \item{...}{other parameters}
 }
+\value{
+returns the output of the evaluation, whatever it is...
+}
 \description{
 evaluate an R expression based on an input of class 'character'.
-Returns the output of the evaluation, whatever it is.
 }
 \examples{
 .eval('c(1,2)')

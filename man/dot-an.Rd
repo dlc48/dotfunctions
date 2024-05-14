@@ -2,7 +2,7 @@
 % Please edit documentation in R/divers.r
 \name{.an}
 \alias{.an}
-\title{.an}
+\title{shortcut}
 \usage{
 .an(..., warning = FALSE)
 }
@@ -11,6 +11,12 @@
 
 \item{warning}{suppress warnings}
 }
+\value{
+a vector of numerical values.
+}
 \description{
-as.numeric
+shortcut of as.numeric().
+}
+\examples{
+.an("2")
 }

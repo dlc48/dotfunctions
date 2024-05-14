@@ -1,16 +1,12 @@
-# check the script /scripts/InstallPackagesAfterRInstall.rs to re-install all packages
-
-#' .ip
-#'
-#' note: files are stored under ">.libPaths"
-#' @param pkg name of a package
-#' @param mirror source mirror
-#' @param dependencies dependencies
-#' @param quiet suppress messages
+#' @name .ip
+#' @title shorcut 
+#' @description function allowing to install and load CRAN packages 
+#' @param pkg string indicating the name of the package to install 
+#' @param mirror source mirror: 1 for ETH, any other number for Imperial
+#' @param dependencies logical for dependencies
+#' @param quiet logical for messages
 #' @export
-#'
 .ip = function(pkg,mirror=1,dependencies=TRUE,quiet=FALSE){
-
     if(mirror==1){
         install.packages(pkg,repos="https://stat.ethz.ch/CRAN/",dependencies=dependencies,quiet=quiet)
     }else{
@@ -21,25 +17,16 @@
     library(pkg,character.only=TRUE)
     }
 
-#' .bc
-#'
-#' install bioconductor packages
-#' @param ... package
-#' @param ask ask
+#' @name .bc
+#' @title shorcut 
+#' @description function allowing to install and load bioconductor packages 
+#' @param ... string indicating the name of the package to install 
+#' @param ask logical indicating whether to prompt user before installed packages are updated (argument of BiocManager::install)
+#' @param dependencies logical for dependencies
+#' @param quiet logical for messages
 #' @export
 .bc = function(...,ask=TRUE){
-
     BiocManager::install(...,ask = ask)
     write(...,file="/Users/Shared/code/r/packages/installed/bioconductor.txt",ncolumns=1,append=TRUE)
     library(...,quietly=FALSE)
-
-    if(FALSE){
-# CRAN
-cran = unique(read.csv("/Users/Shared/code/r/packages/installed/cran.txt",header=FALSE)[,1])
-install.packages(cran)
-# BIOCOND
-biocond = unique(read.csv("/Users/Shared/code/r/packages/installed/bioconductor.txt",header=FALSE)[,1])
-BiocManager::install(biocond)
-
-    }
 }

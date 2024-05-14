@@ -2,13 +2,19 @@
 % Please edit documentation in R/divers.r
 \name{.ac}
 \alias{.ac}
-\title{.ac}
+\title{shortcut}
 \usage{
 .ac(...)
 }
 \arguments{
 \item{...}{R object}
 }
+\value{
+a vector of characters.
+}
 \description{
-as.character
+shortcut of as.character()
+}
+\examples{
+.ac(1:2)
 }

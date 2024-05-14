@@ -2,15 +2,19 @@
 % Please edit documentation in R/divers.r
 \name{.nf}
 \alias{.nf}
-\title{.nf}
+\title{factor exterminator}
 \usage{
 .nf(file)
 }
 \arguments{
 \item{file}{a dataframe}
 }
+\value{
+returns a data frame of same size as input but without factors.
+}
 \description{
-.nf() stands for 'No (bloody) factors' and change columns of class 'factor' of a data frame into columns of class 'character'.
-Since read.csv() \link{and equivalent functions} changes the default of the argument 'stringsAsFactors' to FALSE, .nf() is less useful.
-Returns a data frame of same size as input but without factors.
+change columns of class 'factor' of a data frame into columns of class 'character'. 'nf' stands for 'No (bloody) factors'. Since read.csv() \link{and equivalent functions} changes the default of the argument 'stringsAsFactors' to FALSE, .nf() is less useful.
+}
+\examples{
+sapply(.nf(data.frame(y=rnorm(10),x=factor(rep(0:1,each=5)))),class)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/divers.r
 \name{.cat}
 \alias{.cat}
-\title{.cat}
+\title{for loop iteration print}
 \usage{
 .cat(i, n.loop, n.dotline = 50, msg = NULL)
 }
@@ -16,5 +16,8 @@
 \item{msg}{message text}
 }
 \description{
-cat a dot or iteration number in a loop
+cat a dot or an iteration number at each iteration of a for loop. Idea is to see progress.
+}
+\examples{
+for(i in 1:200){.cat(i,200,10)}
 }

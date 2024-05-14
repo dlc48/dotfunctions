@@ -1,11 +1,11 @@
-#' .sig
-#'
-#' star system for p-values. Output is a vector of class 'character'.
+#' @name .sig
+#' @title sig function 
+#' @description star system for p-values.
 #' @param pval vector of p-values
+#' @returns output is a vector of class 'character'.
 #' @export
 #' @examples
 #' .sig(c(0,0.01,0.05,0.1,1))
-
 .sig = function(pval){
     out = rep("",length(pval))
     out[pval<=  .1 & !is.na(pval)] = "."
@@ -15,14 +15,15 @@
     out
     }
 
-#' .pval
-#'
-#' print function for p-values, change 1e-299 into <0.0001. Output is a vector of class 'character' with a fixed number of postions after the comma.
+#' @name .pval
+#' @title p-val function 
+#' @description print function for p-values, change 1e-299 into <0.0001. 
 #' @param pval vector of p-values
 #' @param digit number of digits for rounding rule
+#' @returns output is a vector of class 'character' with a fixed number of postions after the comma.
+#' @export
 #' @examples
 #' .pval(c(0,0.01,0.05,0.1,1))    
-#' @export
 .pval = function(pval,digit=4){
     out = format(c(.an(.p("0.",.p(rep(1,digit),collapse=""))),round(pval,digits=digit)))[-1]
     out[is.na(pval)] = ""
@@ -30,10 +31,9 @@
     out
     }
 
-#########
-#' .tex
-#'
-#' defines the centre part of the tex code corresponding to a Table (and typically called, in TeX, via the input function). the input is a matrix with row and column names.
+#' @name .tex
+#' @title tex function 
+#' @description defines the centre part of the tex code corresponding to a Table (and typically called, in TeX, via the input function). the input is a matrix with row and column names.
 #' @param input the table, including rownames and colnames
 #' @param file the name and path of the tex file
 #' @param cmidrule a matrix of same size as input with non-NA entries
@@ -45,7 +45,6 @@
 #' @param pos.centeredrow position of the columns which should be centered in row
 #' @param pos.centeredcol position of the rows which should be centered in column
 #' @export
-
 .tex = function(input,file=NULL,cmidrule=NULL,
                 col.row=NULL,col.col=NULL,
                 pos.textbfrow=NULL,pos.textbfcol=NULL,

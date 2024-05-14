@@ -2,7 +2,7 @@
 % Please edit documentation in R/divers.r
 \name{.p}
 \alias{.p}
-\title{.p}
+\title{shortcut}
 \usage{
 .p(..., sep = "")
 }
@@ -12,5 +12,8 @@
 \item{sep}{a character string to separate the terms}
 }
 \description{
-paste with default of sep=""
+lazy shortcut for paste0
+}
+\examples{
+.p(LETTERS[1:10],collapse="+")
 }

@@ -12,7 +12,7 @@
 \item{n.tk}{vector of integers indicating the dimension of the array of interest, typically dim(obj), where obj is the object of interest.}
 }
 \value{
-Output is a vector of scalars of length matching the dimension of the array.
+output is a vector of scalars of length matching the dimension of the array.
 }
 \description{
 reverse of the .coord() function: gives coordinates corresponding to a position of interest.

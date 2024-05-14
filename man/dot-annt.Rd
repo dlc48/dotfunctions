@@ -2,13 +2,19 @@
 % Please edit documentation in R/divers.r
 \name{.annt}
 \alias{.annt}
-\title{.annt}
+\title{shortcut}
 \usage{
 .annt(vector)
 }
 \arguments{
 \item{vector}{vector object}
 }
+\value{
+a vector of numerical values.
+}
 \description{
-as.numeric of names of table
+as.numeric of the names of table applied to a vector
+}
+\examples{
+.an("2")    
 }

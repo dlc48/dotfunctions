@@ -1,6 +1,6 @@
-#' .ql
-#'
-#' allows a better look on object
+#' @name .ql
+#' @title quick look function 
+#' @description generates a 'quick look' of R objects of different classes. Currently handles matrices, data frames, lists and vectors. Typically prints a subset of the object (first rows and columns for matrices, for example) and some relevant summaries (like the class, number of 0s and NAs, for each column of a data frame, for example)
 #' @param obj R object
 #' @param dim1 max number of rows to display
 #' @param dim2 max number of columns to display
@@ -12,11 +12,11 @@
 #' @param inf.list "all" (default), "sample","none"
 #' @param full by default is TRUE
 #' @export
-
+#' @examples
+#' .ql(.adfm(rnorm(100),ncol=4))
 .ql=function(obj,dim1=10,dim2=6,dim3=3,length.vector=24,length.list=5,
              digit=3,inf.col="all",inf.list="sample",full=TRUE){
-
-# obj = matrix(1:10,ncol=2); dim1=10;dim2=6;dim3=3;length.vector=24;length.list=5; digit=3;inf.col="all";inf.list="sample";full=TRUE
+    # obj = matrix(1:10,ncol=2); dim1=10;dim2=6;dim3=3;length.vector=24;length.list=5; digit=3;inf.col="all";inf.list="sample";full=TRUE
 
     nameobj=deparse(match.call()[[2]])
     cl=class(obj)

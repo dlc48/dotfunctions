@@ -2,7 +2,7 @@
 % Please edit documentation in R/divers.r
 \name{.adf}
 \alias{.adf}
-\title{.adf}
+\title{shortcut}
 \usage{
 .adf(matrix, colnames = NULL, rownames = NULL)
 }
@@ -13,6 +13,12 @@
 
 \item{rownames}{rownames}
 }
+\value{
+a data frame.
+}
 \description{
-as.data.frame
+change class of a matrix to 'data.frame'. Less busy people may consider the function as.data.frame().
+}
+\examples{
+.adf(matrix(1:10,ncol=2),colnames=c("a","b")) 
 }

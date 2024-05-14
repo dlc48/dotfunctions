@@ -2,15 +2,21 @@
 % Please edit documentation in R/divers.r
 \name{.isin}
 \alias{.isin}
-\title{.isin}
+\title{'is in' function}
 \usage{
 .isin(ci, theta)
 }
 \arguments{
-\item{ci}{confidence intervals}
+\item{ci}{(confidence) interval}
 
-\item{theta}{theta}
+\item{theta}{value of interest}
+}
+\value{
+a logical (TRUE or FALSE)
 }
 \description{
-confidence intervals: does theta belong to ci ?
+defines if an interval (of two values) contains a value of interest. Most often used to check if a confidence interval contains the true value
+}
+\examples{
+.isin(t.test(rnorm(20),rnorm(20))$conf.int,0)
 }

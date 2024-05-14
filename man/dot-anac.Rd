@@ -2,13 +2,19 @@
 % Please edit documentation in R/divers.r
 \name{.anac}
 \alias{.anac}
-\title{.adf}
+\title{shortcut}
 \usage{
 .anac(vector)
 }
 \arguments{
 \item{vector}{input vector}
 }
+\value{
+returns a vector of class numeric.
+}
 \description{
-as.numeric of as.character
+shortcut for as.numeric used on the output of as.character used on a vector.
+}
+\examples{
+.anac(table(rpois(100,2)))
 }

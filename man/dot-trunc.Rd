@@ -2,14 +2,19 @@
 % Please edit documentation in R/divers.r
 \name{.trunc}
 \alias{.trunc}
-\title{.trunc}
+\title{shortcut}
 \usage{
 .trunc(x)
 }
 \arguments{
-\item{x}{input string}
+\item{x}{input vector of strings}
+}
+\value{
+a vector of strings
 }
 \description{
-Trunc function (useful for names)
-transform "abc def gh     " to "abc def gh"
+removes the empty spaces coming after the last character for each element of a vector of strings and thus transforms, for example, "abc def gh     " into "abc def gh".
+}
+\examples{
+.trunc("abc def gh     ")
 }

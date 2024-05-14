@@ -2,13 +2,19 @@
 % Please edit documentation in R/warning.r
 \name{.w}
 \alias{.w}
-\title{.w}
+\title{warning function}
 \usage{
 .w(x = NULL)
 }
 \arguments{
-\item{x}{input}
+\item{x}{warning message (optional)}
+}
+\value{
+warning message (character)
 }
 \description{
-.w
+prints a visually striking error message
+}
+\examples{
+.w()
 }

@@ -2,13 +2,19 @@
 % Please edit documentation in R/divers.r
 \name{.logit}
 \alias{.logit}
-\title{.logit}
+\title{shortcut}
 \usage{
 .logit(p)
 }
 \arguments{
-\item{p}{input value}
+\item{x}{vector of rational numbers belonging to \link{0,1}}
+}
+\value{
+a vector of rational numbers
 }
 \description{
-.logit function
+defines the .logit function on a vector of numerical values belonging to \link{0,1}. typically used with probabilities related to a linear regression.
+}
+\examples{
+.logit(0.5)
 }

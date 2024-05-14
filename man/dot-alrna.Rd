@@ -2,15 +2,21 @@
 % Please edit documentation in R/divers.r
 \name{.alrna}
 \alias{.alrna}
-\title{.alrna}
+\title{shortcut}
 \usage{
 .alrna(integer, names = NULL)
 }
 \arguments{
-\item{integer}{number of rep}
+\item{integer}{integer indicating the length of the list}
 
-\item{names}{default is NULL}
+\item{names}{name of each element of the list (default is NULL)}
+}
+\value{
+an object of class 'list'
 }
 \description{
-as.list rep na
+creates a list of (possibly named) elements
+}
+\examples{
+.alrna(10,LETTERS[1:10])
 }

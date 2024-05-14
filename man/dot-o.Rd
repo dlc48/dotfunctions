@@ -2,10 +2,13 @@
 % Please edit documentation in R/divers.r
 \name{.o}
 \alias{.o}
-\title{.o}
+\title{shortcut}
 \usage{
 .o()
 }
 \description{
-kill all graphics
+shuts down all open graphics devices
+}
+\examples{
+.o()
 }

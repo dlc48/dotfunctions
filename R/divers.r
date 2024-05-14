@@ -1,4 +1,3 @@
-####### head
 #' @name .h
 #' @title print function for arrays
 #' @description prints the first dimensions of an array (up to size 3), matrix or data frame. Less busy people may consider the function head().
@@ -26,7 +25,6 @@
    }
 }
 
-
 #' @name .eval
 #' @title evaluation function
 #' @description evaluate an R expression based on an input of class 'character'. 
@@ -37,8 +35,6 @@
 #' @examples
 #' .eval('c(1,2)')
 .eval=function(expr,...){eval(parse(text = noquote(expr)),...)}
-
-
 
 #' @name .nf
 #' @title factor exterminator
@@ -184,7 +180,6 @@
 #' .isin(t.test(rnorm(20),rnorm(20))$conf.int,0)
 .isin=function(ci,theta){if(!any(is.na(ci))){if(theta>=ci[1]&theta<=ci[2]){T}else{F}}else{NA}}
 
-
 #' @name .o
 #' @title shortcut
 #' @description shuts down all open graphics devices
@@ -192,7 +187,6 @@
 #' @examples
 #' .o()
 .o=function(){graphics.off()}
-
 
 #' @name .expit
 #' @title shortcut
@@ -204,7 +198,6 @@
 #' .expit(0)
 .expit = function(x){exp(x)/(1+exp(x))}
 
-
 #' @name .logit
 #' @title shortcut
 #' @description defines the .logit function on a vector of numerical values belonging to [0,1]. typically used with probabilities related to a linear regression.
@@ -214,7 +207,6 @@
 #' @examples
 #' .logit(0.5)
 .logit = function(p){log(p/(1-p))}
-
 
 #' @name .trunc
 #' @title shortcut
@@ -240,33 +232,17 @@
     sapply(x,.trunc0)
     }
 
-
-
-
-
-#' .date
-#' @param x input
+#' @name .fill
+#' @title shortcut
+#' @description for printing purposes, add characters of choice (0s or empty spaces, for example) to a vector of string. typically used to ensure ids have the same number of characters
+#' @param x input vector of strings
+#' @param npos number of position to add, default to the max of the input vector
+#' @param with character to add (default is an empty space)
+#' @param front a logical indicating if the chracter is to add at the front (default) 
+#' @returns a vector of strings (with added characters)       
 #' @export
- .date = function(x){format(Sys.time(), "%Y%m%d")}
-
-
-#' .ad
-#' as.Date
-#' @param x input
-#' @export
-
-.ad = function(x){as.Date(x)}
-
-
-#' .fill
-#' for title, add stuff
-#' @param x input R object
-#' @param npos npos
-#' @param with with
-#' @param front front
-
-#' @export
-
+#' @examples
+#' .fill(1:20,with="0")
 .fill = function(x,npos=NULL,with=" ",front=TRUE){
     # x=1; npos=3; with=0;front=TRUE
     .fill0 = function(x,npos=2,with=" ",front=TRUE){
@@ -288,4 +264,5 @@
     #
     sapply(x,.fill0,npos=ifelse(is.null(npos),max(nchar(x)),npos),with=with,front=front)
     }
+
 

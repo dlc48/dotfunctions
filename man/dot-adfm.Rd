@@ -2,13 +2,19 @@
 % Please edit documentation in R/divers.r
 \name{.adfm}
 \alias{.adfm}
-\title{.adfm}
+\title{shortcut}
 \usage{
 .adfm(...)
 }
 \arguments{
 \item{...}{R object}
 }
+\value{
+a data frame.
+}
 \description{
-matrix as.data.frame
+convert a vector to a data.frame (of possibly different columns).
+}
+\examples{
+.adfm(1:10,ncol=2)
 }

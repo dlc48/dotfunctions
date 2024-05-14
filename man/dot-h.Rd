@@ -2,7 +2,7 @@
 % Please edit documentation in R/divers.r
 \name{.h}
 \alias{.h}
-\title{.h}
+\title{print function for arrays}
 \usage{
 .h(x, size = c(10, 10, 2))
 }

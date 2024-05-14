@@ -2,13 +2,19 @@
 % Please edit documentation in R/divers.r
 \name{.expit}
 \alias{.expit}
-\title{.expit}
+\title{shortcut}
 \usage{
 .expit(x)
 }
 \arguments{
-\item{x}{input value}
+\item{x}{vector of rational numbers}
+}
+\value{
+a vector of rational numbers belonging to \link{0,1}
 }
 \description{
-expit function
+defines the expit function on a vector of numerical values. typically used to define the probabilities of success related to a logistic regression.
+}
+\examples{
+.expit(0)
 }

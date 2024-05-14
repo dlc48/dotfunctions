@@ -40,11 +40,12 @@
     }
 
 
-#' @name .idf
+#' @name .ide
 #' @title id elements 
 #' @description identify all existing id objects (typically created by means of .idf in an environment (typically .GlobalEnv)
 #' @returns output is a string vector.
 #' @export
+#' @examples    
 #' .ide()
 .ide = function(){
     c(apropos("^id[.]"),apropos("^n[.]"))
