@@ -34,9 +34,12 @@ devtools::build(binary=FALSE)
 ############################################
 # github installation:
 
-# PUSH and then use
+# PUSH and then use for private repo:
 devtools::install_github("dlc48/dotfunctions", auth_token = "XXXX")
 # where "auth_token" is generated from github.com
 # -> dlc48 / settings / Developer settings / Personal access token / 
 #    Tokens (classic) / generate new token 
+
+# PUSH and then use for public repo:
+devtools::install_github("dlc48/dotfunctions")
 
