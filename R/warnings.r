@@ -2,11 +2,12 @@
 #' @title warning function 
 #' @description prints a visually striking error message
 #' @param x warning message (optional)
+#' @param immediate. logical, indicating if the warning should be output immediately. check ?warning for further information on this argument
 #' @returns warning message (character) 
 #' @export
 #' @examples
 #' .w()
-.w=function(x=NULL){
+.w=function(x=NULL, immediate.=FALSE){
     msg = c(
     # terrible 79
     .p(
@@ -219,6 +220,7 @@
     which = which(which)
     which = which[order(runif(length(which)))][1]
     #
-    warning(.p(msg[which],if(!is.null(x)).p("\t",x,"\n")),call.=FALSE)
+    warning(.p("\n",msg[which],if(!is.null(x)).p("\t",x,"\n")),
+            call.=FALSE,immediate.=immediate.)
     }
 

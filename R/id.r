@@ -3,6 +3,7 @@
 #' @description creates, in .GlobalEnv (!), an 'id' data frame based on a vector (of strings or numerical values) or on the output of the function table() applied to a vector as well as an object indicating the numbers of rows of the data frame. If the name is 'X', the id data.frame will be named 'id.X' and the size scalar 'n.X'. This function will replace any objects in .GlobalEnv having the same target name (!).
 #' @param input input id
 #' @param name name
+#' @param ask a logical. When ask equals TRUE, the function checks if an r object of .GlobalEnv is already named 'id.X' or 'n.X' (where X is the name specified in the previous argument) exists and, if it does, ask for the authorisation to overwrite them (expect when .id == "dlc").
 #' @returns a data frame with columns 'pos' (scalar vector going from 1 to the number of rows), 'id' (character vector ordered by numerical value whe the input is numerical) and possibly 'n' (numerical vector) when the input is numerical or the output of the function table().
 #' @export
 #' @examples
@@ -11,7 +12,7 @@
 #' print(id.X)
 #' print(n.X)
 #' }
-.idf = function(input,name){
+.idf = function(input, name, ask=TRUE){
     # warnings
     w1 = ifelse(class(input)=="table",
                 length(unique(names(input)))!=length(input),
@@ -35,11 +36,34 @@
         }else{
             if(!any(is.na(suppressWarnings(.an(input,warning=FALSE))))){id$value = .an(input,warning=FALSE)}
             }
-        # save
+        # ask
+        if(exists(".id")){
+            # only if not me
+            if(.id=="dlc"){ask=FALSE}
+        }                    
+        if(ask){              
+            if(exists(.p("n.",name),envir=.GlobalEnv)){
+                .w(.p("An object named 'n.",name,
+                   "' already exists in .GlobalEnv.\n"),immediate.=TRUE)
+                answer = readline("\tOverwrite it? yes/no:\t")
+                if((answer=="no"|answer=="n")&(answer!="yes"|answer!="y")){
+                    stop("\nYou refused overwriting (fair!): pick another name and start over") 
+               }
+            }
+            if(exists(.p("id.",name),envir=.GlobalEnv)){
+                .w(.p("An object named 'id.",name,
+                   "' already exists in .GlobalEnv.\n"),immediate.=TRUE)
+                answer = readline("\tOverwrite it? yes/no:\t")
+                if((answer=="no"|answer=="n")&(answer!="yes"|answer!="y")){
+                    stop("\nYou refused overwriting (fair!): pick another name and start over") 
+                }
+            }
+        }
+        # assign 
         assign(.p("n.",name),n,pos=.GlobalEnv)
         assign(.p("id.",name),id,pos=.GlobalEnv)
-        }
     }
+}
 
 
 #' @name .ide
@@ -53,7 +77,7 @@
 #' }    
 .ide = function(){
     c(apropos("^id[.]"),apropos("^n[.]"))
-    }
+}
 
 #' @name .ar
 #' @title id files based arrays

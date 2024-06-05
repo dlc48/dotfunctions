@@ -4,10 +4,12 @@
 \alias{.w}
 \title{warning function}
 \usage{
-.w(x = NULL)
+.w(x = NULL, immediate. = FALSE)
 }
 \arguments{
 \item{x}{warning message (optional)}
+
+\item{immediate.}{logical, indicating if the warning should be output immediately. check ?warning for further information on this argument}
 }
 \value{
 warning message (character)
