@@ -14,5 +14,7 @@ identify all existing id objects (typically created by means of .idf in an envir
 }
 \examples{
    
+\dontrun{    
 .ide()
+}    
 }

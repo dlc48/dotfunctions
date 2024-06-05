@@ -18,7 +18,9 @@ a data frame with columns 'pos' (scalar vector going from 1 to the number of row
 creates, in .GlobalEnv (!), an 'id' data frame based on a vector (of strings or numerical values) or on the output of the function table() applied to a vector as well as an object indicating the numbers of rows of the data frame. If the name is 'X', the id data.frame will be named 'id.X' and the size scalar 'n.X'. This function will replace any objects in .GlobalEnv having the same target name (!).
 }
 \examples{
+\dontrun{
 .idf(table(rpois(10,3)),"X")
 print(id.X)
 print(n.X)
+}
 }
