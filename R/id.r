@@ -1,9 +1,9 @@
 #' @name .idf
 #' @title id function 
-#' @description creates, in .GlobalEnv (!), an 'id' data frame based on a vector (of strings or numerical values) or on the output of the function table() applied to a vector as well as an object indicating the numbers of rows of the data frame. If the name is 'X', the id data.frame will be named 'id.X' and the size scalar 'n.X'. This function will replace any objects in .GlobalEnv having the same target name (!).
+#' @description creates, in .GlobalEnv (!), an 'id' data frame based on a vector (of strings or numerical values) or on the output of the function table() applied to a vector as well as an object indicating the numbers of rows of the data frame. If the name is 'X', the id data.frame will be named 'id.X' and the size scalar 'n.X'. This function will replace any objects in .GlobalEnv having the same target name if permission is granted (see argument 'ask').
 #' @param input input id
 #' @param name name
-#' @param ask a logical. When ask equals TRUE, the function checks if an r object of .GlobalEnv is already named 'id.X' or 'n.X' (where X is the name specified in the previous argument) exists and, if it does, ask for the authorisation to overwrite them (expect when .id == "dlc").
+#' @param ask a logical. When ask equals TRUE (default), the function checks if an r object of .GlobalEnv is already named 'id.X' or 'n.X' (where X is the name specified in the previous argument) exists and, if it does, ask for the authorisation to overwrite them. The question is not asked when options()$dotfunctions_dontask == TRUE, where options()$dotfunctions_dontask can be set to TRUE (or FALSE) by running options(dotfunctions_dontask = TRUE) in .First, for example, and is set to TRUE in an R session if the user once answers 'always' to the question.
 #' @returns a data frame with columns 'pos' (scalar vector going from 1 to the number of rows), 'id' (character vector ordered by numerical value whe the input is numerical) and possibly 'n' (numerical vector) when the input is numerical or the output of the function table().
 #' @export
 #' @examples
@@ -37,25 +37,33 @@
             if(!any(is.na(suppressWarnings(.an(input,warning=FALSE))))){id$value = .an(input,warning=FALSE)}
             }
         # ask
-        if(exists(".id")){
-            # only if not me
-            if(.id=="dlc"){ask=FALSE}
+        if(!is.null(options()$dotfunctions_dontask)){
+            if(options()$dotfunctions_dontask){ask=FALSE}
         }                    
-        if(ask){              
+        if(ask){ 
+            # n.XX             
             if(exists(.p("n.",name),envir=.GlobalEnv)){
                 .w(.p("An object named 'n.",name,
-                   "' already exists in .GlobalEnv.\n"),immediate.=TRUE)
-                answer = readline("\tOverwrite it? yes/no:\t")
-                if((answer=="no"|answer=="n")&(answer!="yes"|answer!="y")){
+                   "' already exists in .GlobalEnv."),immediate.=TRUE)
+                answer = readline("\tOverwrite it? yes/no/always:\t")
+                if(answer=="always"){options(dotfunctions_dontask = TRUE)}
+                if((answer=="no"|answer=="n"|answer=="")&(answer!="yes"|answer!="y")){
                     stop("\nYou refused overwriting (fair!): pick another name and start over") 
                }
             }
-            if(exists(.p("id.",name),envir=.GlobalEnv)){
-                .w(.p("An object named 'id.",name,
-                   "' already exists in .GlobalEnv.\n"),immediate.=TRUE)
-                answer = readline("\tOverwrite it? yes/no:\t")
-                if((answer=="no"|answer=="n")&(answer!="yes"|answer!="y")){
-                    stop("\nYou refused overwriting (fair!): pick another name and start over") 
+            # id.XX
+            cond1 = is.null(options()$dotfunctions_dontask)
+            cond2 = ifelse(!cond1, options()$dotfunctions_dontask, FALSE)
+            if(cond1 | !cond2){
+                # answered 'always' before in the same R session
+                if(exists(.p("id.",name),envir=.GlobalEnv)){
+                    .w(.p("An object named 'id.",name,
+                       "' already exists in .GlobalEnv."),immediate.=TRUE)
+                    answer = readline("\tOverwrite it? yes/no/always:\t")
+                    if(answer=="always"){options(dotfunctions_dontask = TRUE)}
+                    if((answer=="no"|answer=="n"|answer=="")&(answer!="yes"|answer!="y")){
+                        stop("\nYou refused overwriting (fair!): pick another name and start over") 
+                    }
                 }
             }
         }

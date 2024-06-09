@@ -11,13 +11,13 @@
 
 \item{name}{name}
 
-\item{ask}{a logical. When ask equals TRUE, the function checks if an r object of .GlobalEnv is already named 'id.X' or 'n.X' (where X is the name specified in the previous argument) exists and, if it does, ask for the authorisation to overwrite them (expect when .id == "dlc").}
+\item{ask}{a logical. When ask equals TRUE (default), the function checks if an r object of .GlobalEnv is already named 'id.X' or 'n.X' (where X is the name specified in the previous argument) exists and, if it does, ask for the authorisation to overwrite them. The question is not asked when options()$dotfunctions_dontask == TRUE, where options()$dotfunctions_dontask can be set to TRUE (or FALSE) by running options(dotfunctions_dontask = TRUE) in .First, for example, and is set to TRUE in an R session if the user once answers 'always' to the question.}
 }
 \value{
 a data frame with columns 'pos' (scalar vector going from 1 to the number of rows), 'id' (character vector ordered by numerical value whe the input is numerical) and possibly 'n' (numerical vector) when the input is numerical or the output of the function table().
 }
 \description{
-creates, in .GlobalEnv (!), an 'id' data frame based on a vector (of strings or numerical values) or on the output of the function table() applied to a vector as well as an object indicating the numbers of rows of the data frame. If the name is 'X', the id data.frame will be named 'id.X' and the size scalar 'n.X'. This function will replace any objects in .GlobalEnv having the same target name (!).
+creates, in .GlobalEnv (!), an 'id' data frame based on a vector (of strings or numerical values) or on the output of the function table() applied to a vector as well as an object indicating the numbers of rows of the data frame. If the name is 'X', the id data.frame will be named 'id.X' and the size scalar 'n.X'. This function will replace any objects in .GlobalEnv having the same target name if permission is granted (see argument 'ask').
 }
 \examples{
 \dontrun{

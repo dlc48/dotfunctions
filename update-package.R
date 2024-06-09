@@ -1,4 +1,4 @@
-# cd /Users/Shared/code/r/packages/git_dotfunctions
+# cd ~/code/r/dev/git_dotfunctions
 # R --vanilla
 
 rm(list=ls())

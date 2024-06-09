@@ -15,16 +15,16 @@
     }
 
 
-#' @name .col
+#' @name .color
 #' @title colour shortcut function
 #' @description create a function generating the colours or interest
 #' @returns a function generating the colours of interest
 #' @export
 #' @examples
 #' \donttest{
-#' pal.fun = .col()
+#' pal.fun = .color()
 #' }
-.col = function(){colorspace::choose_palette()}
+.color = function(){colorspace::choose_palette()}
 
 
 #' @name .circle
