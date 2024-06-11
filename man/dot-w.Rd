@@ -18,5 +18,7 @@ warning message (character)
 prints a visually striking error message
 }
 \examples{
+\dontrun{
 .w()
+}
 }

@@ -13,7 +13,7 @@ a function generating the colours of interest
 create a function generating the colours or interest
 }
 \examples{
-\donttest{
+\dontrun{
 pal.fun = .color()
 }
 }

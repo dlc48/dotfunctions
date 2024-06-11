@@ -6,7 +6,9 @@
 #' @returns warning message (character) 
 #' @export
 #' @examples
+#' \dontrun{
 #' .w()
+#' }
 .w=function(x=NULL, immediate.=FALSE){
     msg = c(
     # terrible 79
@@ -130,7 +132,7 @@
     "\t    S     S    S S    O  S     S  S  S      \n",                                       
     "\t    P     P    P P    P   'sss'   P   'sss' \n",                                       
     "\t                                            \n",
-    "\td sss  d s.    d  d                         \n",                                        
+    "\td*sss  d s.    d  d                         \n",                                        
     "\tS      S  ~O   S  S                         \n",                                        
     "\tS      S   `b  S  S                         \n",                                        
     "\tS sSSs S sSSO  S  S                         \n",                                        

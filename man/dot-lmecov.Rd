@@ -18,8 +18,8 @@ the covariance matrix (of class matrix)
 extract the estimated random effect covariance matrix of a linear mixed model fitted by means of nlme::lme().
 }
 \examples{
-\donttest{
-require(nlme)
+\dontrun{
+# library(nlme)
 fm1 <- lme(distance ~ age, data = Orthodont) # random is ~ age
 fm2 <- lme(distance ~ age + Sex, data = Orthodont, random = ~ 1)
 .lmecov(fm1)

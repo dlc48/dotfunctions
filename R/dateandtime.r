@@ -37,10 +37,11 @@
 #' @name .date
 #' @title iso date function
 #' @description indicate the date of the day (the function is used) in iso format (typically used to name output files).    
+#' @param x whatever (it will be ignored)
 #' @export
 #' @examples
 #' .date()    
- .date = function(x){format(Sys.time(), "%Y%m%d")}
+ .date = function(x=NULL){format(Sys.time(), "%Y%m%d")}
 
 #' @name .ad
 #' @title shortcut

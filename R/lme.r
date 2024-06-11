@@ -6,8 +6,8 @@
 #' @returns the covariance matrix (of class matrix)
 #' @export
 #' @examples
-#' \donttest{
-#' require(nlme)
+#' \dontrun{
+#' # library(nlme)
 #' fm1 <- lme(distance ~ age, data = Orthodont) # random is ~ age
 #' fm2 <- lme(distance ~ age + Sex, data = Orthodont, random = ~ 1)
 #' .lmecov(fm1)
@@ -15,7 +15,7 @@
 #' }
 .lmecov = function(fit,residual.variance = TRUE){
     # check class
-    if(class(fit)!="lme"){.w();stop()}
+    if(inherits(fit,"lme")){.w();stop()}
     # 
     tmp  = VarCorr(fit)
     out  = diag(.an(tmp[,"Variance"]))

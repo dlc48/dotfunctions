@@ -6,7 +6,7 @@
 #' @param ...  ...
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' .ep()
 #' }
 .ep = function(xlim=c(0,1),ylim=c(0,1),...) {
@@ -21,7 +21,7 @@
 #' @returns a function generating the colours of interest
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' pal.fun = .color()
 #' }
 .color = function(){colorspace::choose_palette()}
@@ -30,12 +30,12 @@
 #' @name .circle
 #' @title circle function
 #' @description plot a circle based on coordinates of centre and radius. Note that circles may look like ellipses if the aspect ratio (argument 'asp' of plot) is different from 1
-#' @param x x is a vector defined as follows x[1] =  centre x-coordinate, x[2] =  centre y-coordinate, x[3] = radius.
+#' @param x x is a vector defined as follows: first element =  centre x-coordinate, second element =  centre y-coordinate, third element = radius.
 #' @param plot a logical. use TRUE to plot or FALSE to save dataset of x and y coordinates of 200 points
 #' @param ... ...
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' .ep(asp=1)
 #' .circle(c(.5,.5,.25))
 #' }
@@ -59,9 +59,9 @@
 #' @param side 3 = over, 1 = below
 #' @param at.y if non-null, label are displayed in the plot on an horizontal line
 #'  at 'at.y' on the y-axis
-#' @param col.abline colour of the vertical boundaries in abline() [col]
-#' @param col.label colour of the label in axis() [col.axis]
-#' @param col.axis colour of the x-axis if add.axis == TRUE in axis [col.axis]
+#' @param col.abline colour of the vertical boundaries in the argument 'col' of \link[graphics]{abline}
+#' @param col.label colour of the label 
+#' @param col.axis colour of the x-axis if add.axis == TRUE 
 #' @param padj padj
 #' @param hadj hadj
 #' @param cex cex

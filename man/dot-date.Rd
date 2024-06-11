@@ -4,7 +4,10 @@
 \alias{.date}
 \title{iso date function}
 \usage{
-.date(x)
+.date(x = NULL)
+}
+\arguments{
+\item{x}{whatever (it will be ignored)}
 }
 \description{
 indicate the date of the day (the function is used) in iso format (typically used to name output files).

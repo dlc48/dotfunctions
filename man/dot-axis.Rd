@@ -32,11 +32,11 @@
 \item{at.y}{if non-null, label are displayed in the plot on an horizontal line
 at 'at.y' on the y-axis}
 
-\item{col.abline}{colour of the vertical boundaries in abline() \link{col}}
+\item{col.abline}{colour of the vertical boundaries in the argument 'col' of \link[graphics]{abline}}
 
-\item{col.label}{colour of the label in axis() \link{col.axis}}
+\item{col.label}{colour of the label}
 
-\item{col.axis}{colour of the x-axis if add.axis == TRUE in axis \link{col.axis}}
+\item{col.axis}{colour of the x-axis if add.axis == TRUE}
 
 \item{padj}{padj}
 

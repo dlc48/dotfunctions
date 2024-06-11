@@ -38,7 +38,7 @@
 
 #' @name .nf
 #' @title factor exterminator
-#' @description change columns of class 'factor' of a data frame into columns of class 'character'. 'nf' stands for 'No (bloody) factors'. Since read.csv() [and equivalent functions] changes the default of the argument 'stringsAsFactors' to FALSE, .nf() is less useful.
+#' @description change columns of class 'factor' of a data frame into columns of class 'character'. 'nf' stands for 'No (bloody) factors'. Since read.csv() (and equivalent functions) changes the default of the argument 'stringsAsFactors' to FALSE, .nf() is less useful.
 #'
 #' @param file a dataframe 
 #' @returns returns a data frame of same size as input but without factors. 
@@ -185,14 +185,16 @@
 #' @description shuts down all open graphics devices
 #' @export
 #' @examples
+#' \dontrun{
 #' .o()
+#' }
 .o=function(){graphics.off()}
 
 #' @name .expit
 #' @title shortcut
 #' @description defines the expit function on a vector of numerical values. typically used to define the probabilities of success related to a logistic regression.
 #' @param x vector of rational numbers 
-#' @returns a vector of rational numbers belonging to [0,1]               
+#' @returns a vector of rational numbers belonging to (0,1)               
 #' @export
 #' @examples
 #' .expit(0)
@@ -200,8 +202,8 @@
 
 #' @name .logit
 #' @title shortcut
-#' @description defines the .logit function on a vector of numerical values belonging to [0,1]. typically used with probabilities related to a linear regression.
-#' @param x vector of rational numbers belonging to [0,1]
+#' @description defines the .logit function on a vector of numerical values belonging to (0,1). typically used with probabilities related to a linear regression.
+#' @param p vector of rational numbers belonging to (0,1)
 #' @returns a vector of rational numbers          
 #' @export
 #' @examples

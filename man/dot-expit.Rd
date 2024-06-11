@@ -10,7 +10,7 @@
 \item{x}{vector of rational numbers}
 }
 \value{
-a vector of rational numbers belonging to \link{0,1}
+a vector of rational numbers belonging to (0,1)
 }
 \description{
 defines the expit function on a vector of numerical values. typically used to define the probabilities of success related to a logistic regression.

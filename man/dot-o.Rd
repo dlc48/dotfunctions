@@ -10,5 +10,7 @@
 shuts down all open graphics devices
 }
 \examples{
+\dontrun{
 .o()
+}
 }

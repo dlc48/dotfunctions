@@ -4,16 +4,14 @@
 \alias{.bc}
 \title{shorcut}
 \usage{
-.bc(..., ask = TRUE)
+.bc(..., ask = TRUE, path = NULL)
 }
 \arguments{
 \item{...}{string indicating the name of the package to install}
 
 \item{ask}{logical indicating whether to prompt user before installed packages are updated (argument of BiocManager::install)}
 
-\item{dependencies}{logical for dependencies}
-
-\item{quiet}{logical for messages}
+\item{path}{if not NULL (default), path to a text file to which the name of the installed package will be added}
 }
 \description{
 function allowing to install and load bioconductor packages

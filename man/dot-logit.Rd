@@ -7,13 +7,13 @@
 .logit(p)
 }
 \arguments{
-\item{x}{vector of rational numbers belonging to \link{0,1}}
+\item{p}{vector of rational numbers belonging to (0,1)}
 }
 \value{
 a vector of rational numbers
 }
 \description{
-defines the .logit function on a vector of numerical values belonging to \link{0,1}. typically used with probabilities related to a linear regression.
+defines the .logit function on a vector of numerical values belonging to (0,1). typically used with probabilities related to a linear regression.
 }
 \examples{
 .logit(0.5)

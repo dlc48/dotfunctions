@@ -13,7 +13,7 @@
 returns a data frame of same size as input but without factors.
 }
 \description{
-change columns of class 'factor' of a data frame into columns of class 'character'. 'nf' stands for 'No (bloody) factors'. Since read.csv() \link{and equivalent functions} changes the default of the argument 'stringsAsFactors' to FALSE, .nf() is less useful.
+change columns of class 'factor' of a data frame into columns of class 'character'. 'nf' stands for 'No (bloody) factors'. Since read.csv() (and equivalent functions) changes the default of the argument 'stringsAsFactors' to FALSE, .nf() is less useful.
 }
 \examples{
 sapply(.nf(data.frame(y=rnorm(10),x=factor(rep(0:1,each=5)))),class)

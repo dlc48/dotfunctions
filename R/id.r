@@ -14,7 +14,7 @@
 #' }
 .idf = function(input, name, ask=TRUE){
     # warnings
-    w1 = ifelse(class(input)=="table",
+    w1 = ifelse(inherits(input,"table"),
                 length(unique(names(input)))!=length(input),
                 length(unique(input))!=length(input))
     w2 = is.null(name)
@@ -24,13 +24,13 @@
     }else{
         # elements
         n = length(input)
-        if(class(input)=="table"){
+        if(inherits(input,"table")){
             id = names(input)
             if(all(!is.na(.an(id)))){id = .ac(id[order(.an(id))])}
         }else{id = input}
         id = data.frame(pos=1:n,id=.ac(id),stringsAsFactors=FALSE,
                         row.names=id)
-        if(class(input)=="table"){
+        if(inherits(input,"table")){
             id$n = unlist(c(input))
             if(!any(is.na(suppressWarnings(.an(names(input),warning=FALSE))))){id$value = .an(names(input),warning=FALSE)}
         }else{

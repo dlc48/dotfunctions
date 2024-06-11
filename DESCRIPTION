@@ -1,9 +1,11 @@
 Package: dotfunctions
 Title: 'dot' functions 
-Version: 1.0.6
+Version: 1.0.7
 Authors@R: 
     person("Dominique-Laurent", "Couturier", , "dlc48@cam.ac.uk", role = c("aut", "cre"))
 Description: (Personal) R 'dot' functions. Use with care and without trust :) Some are 20 yo. 
+License: GPL-2
 Encoding: UTF-8
+Imports: nlme, BiocManager, readxl, colorspace
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1

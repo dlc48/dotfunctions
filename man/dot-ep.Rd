@@ -17,7 +17,7 @@
 generate an empty plot (no axes, no axe labels, no box, no points)
 }
 \examples{
-\donttest{
+\dontrun{
 .ep()
 }
 }
