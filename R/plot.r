@@ -107,7 +107,7 @@
 
 #' @name .polygon
 #' @title polygon 'shaded' area
-#' @description add a coloured area defined by the function to an existing plot 
+#' @description add a coloured area defined by the function polygon to an existing plot. Ideal to display confidence bounds.
 #' @param x vector of the x axis
 #' @param y1 vector of values of f(x) for the first bound (i.e., upper or lower). It should be a vector of the same length as x.
 #' @param y2 value(s) of f(x) for the second bound. It can either be a vector of the same length as y1 or a scalar of class numeric (default y2 = 0).  
