@@ -1,9 +1,9 @@
 #' dotfunctions
 #'
 #' @name dotfunctions
-#' @importFrom graphics axis lines abline text
+#' @importFrom graphics axis lines abline text polygon 
 #' @importFrom stats runif
-#' @importFrom grDevices graphics.off
+#' @importFrom grDevices graphics.off gray
 #' @importFrom utils apropos install.packages
 #' @importFrom nlme VarCorr
 #' @importFrom BiocManager install

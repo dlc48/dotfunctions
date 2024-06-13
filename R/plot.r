@@ -105,4 +105,39 @@
 
 
 
+#' @name .polygon
+#' @title polygon 'shaded' area
+#' @description add a coloured area defined by the function to an existing plot 
+#' @param x vector of the x axis
+#' @param y1 vector of values of f(x) for the first bound (i.e., upper or lower). It should be a vector of the same length as x.
+#' @param y2 value(s) of f(x) for the second bound. It can either be a vector of the same length as y1 or a scalar of class numeric (default y2 = 0).  
+#' @param col the colour to be used for the surface
+#' @param border the colour to be used for the border (default border=NA, i.e., no border)
+#' @param ... other parameter sent to \link[graphics]{polygon}
+#' @export
+#' @examples
+#' \dontrun{
+#' x   = seq(-4,4,length=1000)
+#' f.x = dnorm(x)
+#' .ep(xlim=range(x),ylim=range(f.x))
+#' axis(1, pos=0)
+#' axis(2)
+#' lines(x,f.x)  
+#' posw = x>-1
+#' .polygon(x[posw],y1=f.x[posw])
+#' }
+.polygon = function(x,y1,y2=0,col=gray(.75),border=NA,...){
+    # minor checks
+    if(length(y2)==1 & inherits(y2,"numeric")){
+        y2 = rep(y2,length(y1))
+    }
+    if((length(x)!=length(y1)) | (length(x)!=length(y1))){
+        .w("inconsistent 'x', 'y1' and 'y2' vector lengths"); stop()
+    }
+    #
+    xx = c(x,x[length(x):1])
+    yy = c(y1,y2[length(y2):1])
+    polygon(xx,yy, col=col, border=border, ...)
+}
+
 
