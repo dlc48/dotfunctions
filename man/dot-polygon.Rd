@@ -20,7 +20,7 @@
 \item{...}{other parameter sent to \link[graphics]{polygon}}
 }
 \description{
-add a coloured area defined by the function to an existing plot
+add a coloured area defined by the function polygon to an existing plot. Ideal to display confidence bounds.
 }
 \examples{
 \dontrun{

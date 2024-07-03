@@ -15,7 +15,7 @@
 #' }
 .lmecov = function(fit,residual.variance = TRUE){
     # check class
-    if(inherits(fit,"lme")){.w();stop()}
+    if(!inherits(fit,"lme")){.w();stop()}
     # 
     tmp  = VarCorr(fit)
     out  = diag(.an(tmp[,"Variance"]))
