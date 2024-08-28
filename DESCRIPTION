@@ -1,0 +1,11 @@
+Package: dotfunctions
+Title: 'dot' functions 
+Version: 1.1.1
+Authors@R: 
+    person("Dominique-Laurent", "Couturier", , "dlc48@cam.ac.uk", role = c("aut", "cre"))
+Description: (Personal) R functions: as with any package, exercise caution and maintain a reasonable level of scepticism.
+License: GPL-2
+Encoding: UTF-8
+Imports: nlme, BiocManager, readxl, colorspace, rlang, R.utils, plyr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
