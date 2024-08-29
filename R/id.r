@@ -35,8 +35,12 @@
             id$n = unlist(c(input))
             if(!any(is.na(suppressWarnings(.an(names(input),warning=FALSE))))){id$value = .an(names(input),warning=FALSE)}
         }else{
-            if(!any(is.na(suppressWarnings(.an(input,warning=FALSE))))){id$value = .an(input,warning=FALSE)}
+            if(!any(is.na(suppressWarnings(.an(input,warning=FALSE))))){
+                id$value = .an(input,warning=FALSE)
+                id = id[order(id$value),]
+                id$pos = 1:n
             }
+        }
         if(any(colnames(id)=="value")&!is.null(fill)){
             if(nchar(fill)==1){
             id$id = rownames(id) = gsub(" ",fill,format(id$value))
