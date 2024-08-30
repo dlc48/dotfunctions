@@ -199,17 +199,18 @@
     # data = id.patient0; col=c("light gray","red"); transpose = FALSE; order.row = TRUE; order.col = TRUE;
 
     # par(mfrow=c(1,1),mar=c(2,8,1.5,8))
-    data = is.na(data)
     if(transpose){data=t(data)}
+    data1 = is.na(data)    
     roww = if(order.row){
-                hclust(dist(data, method = "binary"))$order
+                hclust(dist(data1, method = "binary"))$order
             }else{1:nrow(data)}
     colw = if(order.col){
-                hclust(dist(t(data), method = "binary"))$order
+                hclust(dist(t(data1), method = "binary"))$order
             }else{1:ncol(data)}
-    data  <- data[rank(roww),rank(colw)]
+    data1  <- data1[rank(roww),rank(colw)]
+    data   <- data[rank(roww),rank(colw)]
 
-    image(data[1:nrow(data),ncol(data):1],col=col,axes=FALSE)
+    image(data1[1:nrow(data1),ncol(data1):1],col=col,axes=FALSE)
     axis(1,c(0,1),c(1,nrow(data)),las=1,cex.axis= cex.axis[1])
     axis(4,seq(0,1,length=ncol(data)),
          colnames(data)[ncol(data):1],las=2,cex.axis=cex.axis[2])
@@ -217,7 +218,7 @@
          paste0(format(round(apply(!is.na(data),2,mean)*100,2)),"%")[ncol(data):1],
          las=2,cex.axis=cex.axis[2])
     axis(2,seq(0,1,length=ncol(data)),
-         paste0("n = ",apply(!is.na(data),2,sum))[ncol(data):1],
+         paste0("n = ",.fill(apply(!is.na(data),2,sum)))[ncol(data):1],
          las=2,cex.axis=cex.axis[2],tick=FALSE,hadj=hadj)
 }
 
