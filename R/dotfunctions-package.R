@@ -1,8 +1,8 @@
 #' dotfunctions
 #'
 #' @name dotfunctions
-#' @importFrom graphics axis lines abline text polygon points
-#' @importFrom stats runif cov2cor qchisq coef lm median quantile
+#' @importFrom graphics axis lines abline text polygon points image
+#' @importFrom stats runif cov2cor qchisq coef lm median quantile dist hclust
 #' @importFrom grDevices graphics.off gray rainbow
 #' @importFrom utils apropos install.packages
 #' @importFrom nlme VarCorr

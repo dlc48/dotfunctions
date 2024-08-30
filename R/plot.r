@@ -177,3 +177,48 @@
 }
 
 
+#' @name .isna
+#' @title plot missing pattern
+#' @description plot missing pattern
+#' @param data a dataset with missings
+#' @param col a vector of colours, the first one for the non-missing information, the second one for the missing one
+#' @param transpose a logical indicating if the dataset should be transposed.  
+#' @param order.row a logical indicating if the rows of the dataset should be ordered according to a distance functions,
+#' @param order.col a logical indicating if the columns of the dataset should be ordered according to a distance functions,
+#' @param cex.axis a numerical vector of length 2 indicating the font size on the ast and second axes,
+#' @param hadj a numerical scalar indicating the hadj for the sample size onformation on axis 2, 
+#' @export
+#' @examples
+#' \dontrun{
+#' x   = matrix(sample(c(NA,1),100,replace=TRUE),ncol=4,dimnames=list(1:25,LETTERS[1:4]))
+#' .isna(x)
+#' }
+.isna = function(data,col  = c("light gray","red"),transpose=FALSE,
+                 order.row = TRUE, order.col = TRUE,
+                 cex.axis = c(1,.4),hadj = 2.5){
+    # data = id.patient0; col=c("light gray","red"); transpose = FALSE; order.row = TRUE; order.col = TRUE;
+
+    # par(mfrow=c(1,1),mar=c(2,8,1.5,8))
+    data = is.na(data)
+    if(transpose){data=t(data)}
+    roww = if(order.row){
+                hclust(dist(data, method = "binary"))$order
+            }else{1:nrow(data)}
+    colw = if(order.col){
+                hclust(dist(t(data), method = "binary"))$order
+            }else{1:ncol(data)}
+    data  <- data[rank(roww),rank(colw)]
+
+    image(data[1:nrow(data),ncol(data):1],col=col,axes=FALSE)
+    axis(1,c(0,1),c(1,nrow(data)),las=1,cex.axis= cex.axis[1])
+    axis(4,seq(0,1,length=ncol(data)),
+         colnames(data)[ncol(data):1],las=2,cex.axis=cex.axis[2])
+    axis(2,seq (0,1,length=ncol(data)),
+         paste0(format(round(apply(!is.na(data),2,mean)*100,2)),"%")[ncol(data):1],
+         las=2,cex.axis=cex.axis[2])
+    axis(2,seq(0,1,length=ncol(data)),
+         paste0("n = ",apply(!is.na(data),2,sum))[ncol(data):1],
+         las=2,cex.axis=cex.axis[2],tick=FALSE,hadj=hadj)
+}
+
+
