@@ -4,7 +4,17 @@
 \alias{.ar}
 \title{id files based arrays}
 \usage{
-.ar(id1, id2, id3 = NULL, id4 = NULL, id5 = NULL, value = NA)
+.ar(
+  id1,
+  id2,
+  id3 = NULL,
+  id4 = NULL,
+  id5 = NULL,
+  id6 = NULL,
+  id7 = NULL,
+  id8 = NULL,
+  value = NA
+)
 }
 \arguments{
 \item{id1}{first id file}
@@ -16,6 +26,12 @@
 \item{id4}{fourth id file}
 
 \item{id5}{fifth id file}
+
+\item{id6}{sixth id file}
+
+\item{id7}{seventh id file}
+
+\item{id8}{eighth id file}
 
 \item{value}{content of the array, NA by default}
 }

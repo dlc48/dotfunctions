@@ -204,6 +204,9 @@
 #' @param id3 third id file
 #' @param id4 fourth id file
 #' @param id5 fifth id file
+#' @param id6 sixth id file
+#' @param id7 seventh id file
+#' @param id8 eighth id file
 #' @param value content of the array, NA by default  
 #' @returns an array (or a matrix when only 2 id files are provided)
 #' @export
@@ -213,8 +216,9 @@
 #' .idf(LETTERS[1:6],"Y")   
 #' .ar(id.X,id.Y)    
 #' }   
-.ar = function(id1,id2,id3=NULL,id4=NULL,id5=NULL,value=NA){
-    listw = list(id1,id2,id3,id4,id5)
+.ar = function(id1,id2,id3=NULL,id4=NULL,id5=NULL,
+               id6=NULL,id7=NULL,id8=NULL,value=NA){
+    listw = list(id1,id2,id3,id4,id5,id6,id7)
     listw = listw[!sapply(listw,is.null)]
     # minimal checks
     if(length(listw)<2){.w("provide at least 2 id.XX files");stop()}
