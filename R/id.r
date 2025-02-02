@@ -14,6 +14,7 @@
 #' print(n.X)
 #' }
 .idf = function(input, name, ask=TRUE,fill=NULL){
+    # input = c(3,2,1); name="x"; ask=FALSE; fill=NULL
     # warnings
     w1 = ifelse(inherits(input,"table"),
                 length(unique(names(input)))!=length(input),
@@ -37,7 +38,7 @@
         }else{
             if(!any(is.na(suppressWarnings(.an(input,warning=FALSE))))){
                 id$value = .an(input,warning=FALSE)
-                id = id[order(id$value),]
+                #id = id[order(id$value),]
                 id$pos = 1:n
             }
         }
