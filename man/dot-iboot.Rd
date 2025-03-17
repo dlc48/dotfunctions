@@ -14,7 +14,8 @@
   conv.control = list(tol = 0.001),
   convK = .iboot.conv.lm,
   convK.control = list(alpha = 0.01),
-  B = 2000,
+  B = 1999,
+  B1 = 0,
   R = 49,
   K = NULL,
   parallel = TRUE,
@@ -41,7 +42,9 @@
 
 \item{convK.control}{An optional list of parameters for the convergence function indicated under '\code{convK}'. Default is a list with argument 'tol' = 1e-3, where 'tol' denotes the tolerance value used in \link{.iboot.conv.relative} (default).}
 
-\item{B}{either a scalar indicating the number of IB samples which would be generated with seed 1:B or a list of seeds to be used to generate the IB samples. Default is B = 2000.}
+\item{B}{either a scalar indicating the number of IB samples which would be generated with seed 1:B or a list of seeds to be used to generate the IB samples. Default is B = 1999.}
+
+\item{B1}{the first seed, i.e., seed number 1, where the total number of (potential) seeds equals B x R. IMPORTANT: To avoid seed overlap, B1 is internally multiplied by '10^nchar(BR)'. Default = 0.}
 
 \item{R}{the number of alternative seeds to consider assuming the seed of interest does not lead to estimates (no convergence). Default is R=49 (so that 50 seeds per task are considered in total).}
 

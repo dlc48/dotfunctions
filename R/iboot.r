@@ -10,7 +10,8 @@
 #' @param conv.control An optional list of parameters for the convergence function indicated under '`conv`'. Default is a list with argument 'tol' = 1e-3, where 'tol' denotes the tolerance value used in [.iboot.conv.relative] (default).
 #' @param convK a (self-defined) function assessing convergence based on the estimates obtained on iterations 1 to K (where K denotes the maximum number of iterations). Its output should be logical. Its first argument should be the (K x p) matrix of estimates, and could be followed, optionally, by elements indicated under argument '`conv.control`'. In complex models and/or in models considering discrete responses, the same response vector can sometimes be obtained via different sets of parameters, often leading the implicit boostrap to go from a such a set to the next one between iterations, thus justifying a different assessment of convergence in such cases. Check [.iboot.conv.lm] (default) for an example.
 #' @param convK.control An optional list of parameters for the convergence function indicated under '`convK`'. Default is a list with argument 'tol' = 1e-3, where 'tol' denotes the tolerance value used in [.iboot.conv.relative] (default).
-#' @param B either a scalar indicating the number of IB samples which would be generated with seed 1:B or a list of seeds to be used to generate the IB samples. Default is B = 2000.
+#' @param B either a scalar indicating the number of IB samples which would be generated with seed 1:B or a list of seeds to be used to generate the IB samples. Default is B = 1999.
+#' @param B1 the first seed, i.e., seed number 1, where the total number of (potential) seeds equals B x R. IMPORTANT: To avoid seed overlap, B1 is internally multiplied by '10^nchar(BR)'. Default = 0.
 #' @param R the number of alternative seeds to consider assuming the seed of interest does not lead to estimates (no convergence). Default is R=49 (so that 50 seeds per task are considered in total). 
 #' @param K the maximum number of iterations to seek convergence for a given bootrap sample. If K=NULL (default), K is set to ceiling(10*log(N)) where N denotes the number of rows of the dataset provided in argument 'data'. 
 #' @param parallel a logical indicating if parallel computation should be used. If parallel = TRUE (default), package parallel with forking (ie, not possible for Windows at the moment). 
@@ -23,16 +24,16 @@
                     gen   = NULL, gen.control = NULL,
                     conv  = .iboot.conv.relative, conv.control = list(tol=1e-3),
                     convK = .iboot.conv.lm, convK.control = list(alpha=0.01),
-                    B = 2000, R = 49, K = NULL, 
+                    B = 1999, B1 = 0, R = 49, K = NULL, 
                     parallel = TRUE, n.cores = 9, print = TRUE){
     # test
     if(FALSE){
-        data = data_r
-        est = est.fun; est.control=list(names=id.PAR$id)
-        gen = sim.fun; gen.control=list(data=empty,X=X,Z1=Z1)
-        conv  = .iboot.conv.relative; conv.control = list(tol=1e-3)
+        data  = mamss.sim$H1$trial[[seedw]]$data
+        est   = est.fun; est.control=list(look0=mx.hat.sG[seedw,"look"])
+        gen   = gen.fun; gen.control=list(PAR=PAR)
+        conv  = .iboot.conv.relative; conv.control = list(tol=1e-5)
         convK = .iboot.conv.lm; convK.control = list(alpha=0.01)                                  
-        B = 100000*(seed-1)+seq(1,10); R=50; K = 50
+        B     = 1999; B1 = outer.seed; R=49; K = 50; 
         parallel = TRUE; print=TRUE; n.cores=10
     }
 
@@ -52,6 +53,7 @@
         parallel = FALSE
         warning("no parallel option for windows at the moment")
     }
+    B1 = B1*10^(nchar(.ac(B*R)))
 
     ##
     ## pi0: queen
@@ -72,7 +74,7 @@
             gen=gen,gen.control=gen.control,
             conv=conv,conv.control=conv.control,
             convK=convK,convK.control=convK.control,
-            n.seed=n.seed,R=R,K=K,
+            n.seed=n.seed,B1=B1,R=R,K=K,
             plot=FALSE,print=print,mc.set.seed = FALSE,mc.cores=n.cores)
         mx.hat.Bp = matrix(unlist(mx.hat.Bp),byrow=TRUE,
                            nrow=length(mx.hat.Bp),ncol=n.par,
@@ -80,13 +82,13 @@
     }else{
         mx.hat.Bp = matrix(NA,nrow=n.seed,ncol=n.par,
                            dimnames=list(vect.seed,names(pi0)))
-        for(sw in 1:n.seed){# sw=1
+        for(sw in 1:n.seed){# sw=2
             mx.hat.Bp[sw,] = .iboot_seed(vect.seed[sw],par=pi0,
                       est=est,est.control=est.control,
                       gen=gen,gen.control=gen.control,
                       conv=conv,conv.control=conv.control,
                       convK=convK,convK.control=convK.control,
-                      n.seed=n.seed,R=R,K=K,
+                      n.seed=n.seed,B1=B1,R=R,K=K,
                       plot=FALSE,print=print)
         }
     }
@@ -105,7 +107,7 @@
 #' @name .iboot_seed
 #' @title implicit bootrap sample related estimates
 #' @description internal function 
-#' @param seed the (first!) seed related to the sample of interest. If data generation and estimation related to this seed does not lead to convergence, 50 other seeds are used. This list of seeds is defined as seq(seed,seed+n.seed*R,n.seed) where n.seed is defined further below.
+#' @param seed the seed related to the bth Monte Carlo sample of interest. If data generation and estimation related to this seed does not lead to convergence, 50 other seeds are used. This list of seeds is defined as seq(B1+seed,B1+seed+n.seed*R,n.seed) where n.seed is defined further below.
 #' @param par the vector of parameters as estimated by 'est' on the original dataset.
 #' @param est refer to [.iboot] for details.
 #' @param est.control refer to [.iboot] for details.
@@ -116,6 +118,7 @@
 #' @param convK refer to [.iboot] for details.
 #' @param convK.control refer to [.iboot] for details.
 #' @param n.seed number of IB samples.
+#' @param B1 the first seed of the sequence of interest.
 #' @param R refer to [.iboot] for details.
 #' @param K refer to [.iboot] for details.
 #' @param plot only for check. Default to FALSE. 
@@ -126,18 +129,18 @@
                       gen=gen,gen.control=gen.control,
                       conv=conv,conv.control=conv.control,
                       convK=convK,convK.control=convK.control,
-                      n.seed=n.seed,R=R,K=K,
+                      n.seed=n.seed,B1=B1, R=R,K=K,
                       plot=FALSE,print=print){
     # par=pi0; plot=TRUE; seed=vect.seed[sw]
     out        = rep(NA,length(par))
     names(out) = names(par)
-    list.seed  = seq(seed,seed+n.seed*(R),n.seed)
+    inner.seed = seq(B1+seed,B1+seed+n.seed*R,n.seed)
     seedw      = 0
     converged  = FALSE
-    while(!converged&seedw<length(list.seed)){
+    while(!converged & seedw<length(inner.seed)){
         # initialise
         seedw     = seedw+1
-        cat("\nstart seed",list.seed[seedw],"(",seedw,"/",length(list.seed),")\n")
+        cat("\nstart seed",.ac(inner.seed[seedw]),"(",seedw,"/",length(inner.seed),")\n")
         continue  = TRUE 
         iter      = 1
         mx.hat.kp = matrix(nrow=K+1,ncol=length(par),dimnames=list(1:(K+1),names(par)))
@@ -149,11 +152,11 @@
             axis(2)
             }
         # loop
-        while(continue&iter<K){
+        while(continue & iter<K){
             iter = iter+1
             # generate data
             data.iter = try(R.utils::doCall(gen,
-                            args = c(plyr::.(seed=list.seed[seedw], par=mx.hat.kp[iter-1,]),
+                            args = c(plyr::.(seed=as.character(inner.seed[seedw]), par=mx.hat.kp[iter-1,]),
                             gen.control)),silent=TRUE)
             if(class(data.iter)[1]=="try-error"){
                 if(print){cat("x")}
@@ -166,44 +169,47 @@
                 if(print){cat("x")}
                 continue = FALSE 
             }else{
-            # Update theta^{(k)}
-            mx.hat.kp[iter,] = mx.hat.kp[iter-1,] + par  - pistar 
-            if(plot){
-                points(rep(iter,length(par)),unlist(mx.hat.kp[iter,]),
-                       col=rainbow(length(par)))
-            }                       
-            # check convergence     
-            arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),conv.control)     
-            names(arg.conv)[1] = names(formals(conv))[1]
-            converged = try(R.utils::doCall(conv,args = arg.conv),silent=TRUE)
-            if(!is.logical(converged)){
-                stop(paste0("non logical 'conv' output at iteration ",iter," of seed ",list.seed[seedw]))
-            }else{if(converged){
-                if(print){cat("o")}
-                continue  = FALSE
-                out = c(mx.hat.kp[iter,])                
-                }
-            }
-            # check if conv at last iter
-            if(iter==K&!converged){
-                if(print){cat("|")}
-                arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),convK.control)    
-                names(arg.conv)[1] = names(formals(convK))[1]
-                converged = try(R.utils::doCall(convK,args = arg.conv),silent=TRUE)
+                if(all(is.na(pistar))){
+                    continue = FALSE 
+                }else{
+                # Update theta^{(k)}
+                mx.hat.kp[iter,] = mx.hat.kp[iter-1,] + par  - pistar 
+                if(plot){
+                    points(rep(iter,length(par)),unlist(mx.hat.kp[iter,]),
+                           col=rainbow(length(par)))
+                }                       
+                # check convergence     
+                arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),conv.control)     
+                names(arg.conv)[1] = names(formals(conv))[1]
+                converged = try(R.utils::doCall(conv,args = arg.conv),silent=TRUE)
                 if(!is.logical(converged)){
-                    stop(paste0("non logical 'convK' output at iteration ",iter,
-                         " of seed ",list.seed[seedw]))
+                    stop(paste0("non logical 'conv' output at iteration ",iter," of seed ",inner.seed[seedw]))
                 }else{if(converged){
                     if(print){cat("o")}
                     continue  = FALSE
-                    out = c(mx.hat.kp[iter,])
+                    out = c(mx.hat.kp[iter,])                
                     }
                 }
-            }
-            # continue
-            if(print&!converged){cat(".")}   
-            }} 
-        }# end while-iter
+                # check if conv at last iter
+                if(iter==K&!converged){
+                    if(print){cat("|")}
+                    arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),convK.control)    
+                    names(arg.conv)[1] = names(formals(convK))[1]
+                    converged = try(R.utils::doCall(convK,args = arg.conv),silent=TRUE)
+                    if(!is.logical(converged)){
+                        stop(paste0("non logical 'convK' output at iteration ",iter,
+                             " of seed ",inner.seed[seedw]))
+                    }else{if(converged){
+                        if(print){cat("o")}
+                        continue  = FALSE
+                        out = c(mx.hat.kp[iter,])
+                        }
+                    }
+                }
+                # continue
+                if(print&!converged){cat(".")}   
+                }}} 
+            }# if
     }# end while-iter
     out
 }

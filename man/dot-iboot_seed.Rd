@@ -16,6 +16,7 @@
   convK = convK,
   convK.control = convK.control,
   n.seed = n.seed,
+  B1 = B1,
   R = R,
   K = K,
   plot = FALSE,
@@ -23,7 +24,7 @@
 )
 }
 \arguments{
-\item{seed}{the (first!) seed related to the sample of interest. If data generation and estimation related to this seed does not lead to convergence, 50 other seeds are used. This list of seeds is defined as seq(seed,seed+n.seed*R,n.seed) where n.seed is defined further below.}
+\item{seed}{the seed related to the bth Monte Carlo sample of interest. If data generation and estimation related to this seed does not lead to convergence, 50 other seeds are used. This list of seeds is defined as seq(B1+seed,B1+seed+n.seed*R,n.seed) where n.seed is defined further below.}
 
 \item{par}{the vector of parameters as estimated by 'est' on the original dataset.}
 
@@ -44,6 +45,8 @@
 \item{convK.control}{refer to \link{.iboot} for details.}
 
 \item{n.seed}{number of IB samples.}
+
+\item{B1}{the first seed of the sequence of interest.}
 
 \item{R}{refer to \link{.iboot} for details.}
 
