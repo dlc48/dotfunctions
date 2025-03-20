@@ -27,15 +27,15 @@
                     B = 1999, B1 = 0, R = 49, K = NULL, 
                     parallel = TRUE, n.cores = 9, print = TRUE){
     # test
-    if(FALSE){
-        data  = mamss.sim$H1$trial[[seedw]]$data
-        est   = est.fun; est.control=list(look0=mx.hat.sG[seedw,"look"])
-        gen   = gen.fun; gen.control=list(PAR=PAR)
-        conv  = .iboot.conv.relative; conv.control = list(tol=1e-5)
-        convK = .iboot.conv.lm; convK.control = list(alpha=0.01)                                  
-        B     = 1999; B1 = outer.seed; R=49; K = 50; 
-        parallel = TRUE; print=TRUE; n.cores=10
-    }
+    # if(FALSE){
+    #     data  = data0
+    #     est   = est.fun; est.control=list(look0=mx.hat.sG[seedw,"look"])
+    #     gen   = gen.fun; gen.control=list(PAR=PAR)
+    #     conv  = .iboot.conv.relative; conv.control = list(tol=1e-5)
+    #     convK = .iboot.conv.lm; convK.control = list(alpha=0.01)                                  
+    #     B     = 1999; B1 = outer.seed; R=49; K = 50; 
+    #     parallel = TRUE; print=TRUE; n.cores=10
+    # }
 
     mc = match.call()
     ##
@@ -299,11 +299,11 @@ summary.iboot = function(object,
                          point = median, point.control = list(na.rm=FALSE),
                          interval = quantile, interval.control = list(prob=c(0.025,.975),na.rm=FALSE), ...){
     # test
-    #if(FALSE){
-    #    object = jini_r[[233]]
-    #    point = median; point.control = list(na.rm=FALSE)
-    #    interval = quantile; interval.control = list(probs=c(0.025,.975),na.rm=FALSE)
-    #}
+    if(FALSE){
+       object = iboot_seed[[sw]]
+       point = median; point.control = list(na.rm=FALSE)
+       interval = quantile; interval.control = list(probs=c(0.025,.975),na.rm=FALSE)
+    }
     # output
     n.p = ncol(object$boot)
     # point estimates
