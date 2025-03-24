@@ -232,3 +232,28 @@
 
 
 
+#' @name .list
+#' @title list based on ide file
+#' @description creates a list with length and names coming from an id file, typically generated via .idf().
+#' @param id a file of class .idf
+#' @param value content of the list, NA by default  
+#' @returns a list
+#' @export
+#' @examples     
+#' \dontrun{       
+#' .idf(LETTERS[1:6],"Y")   
+#' .l(id.Y)    
+#' }   
+.list = function(id,value=NA){
+    n   = nrow(id)
+    out = as.list(rep(NA,n))
+    names(out) = id$id
+    for(i in 1:n){
+        out[[i]] = value
+    }
+    # output
+    out
+}
+
+
+
