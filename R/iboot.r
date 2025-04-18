@@ -27,17 +27,17 @@
                     B = 1999, B1 = 0, R = 49, K = NULL, 
                     parallel = TRUE, n.cores = 9, print = TRUE){
     # test
-    # if(FALSE){
-    #     data  = data0
-    #     est   = est.fun; est.control=list(look0=mx.hat.sG[seedw,"look"])
-    #     gen   = gen.fun; gen.control=list(PAR=PAR)
-    #     conv  = .iboot.conv.relative; conv.control = list(tol=1e-5)
-    #     convK = .iboot.conv.lm; convK.control = list(alpha=0.01)                                  
-    #     B     = 1999; B1 = outer.seed; R=49; K = 50; 
-    #     parallel = TRUE; print=TRUE; n.cores=10
-    # }
+    if(FALSE){
+        data = data_r 
+        est = est.fun; est.control=list(names=id.theta$id);
+        gen = sim.fun; gen.control=list(data=empty,X=X,Z1=Z1,Z2=Z2);
+        conv  = .iboot.conv.relative; conv.control = list(tol=1e-4);
+        convK = .iboot.conv.lm; convK.control = list(alpha=0.01); 
+        B = 1999; B1 = id.seed$value[seedw]; K=50; R=50; n.cores=10;
+        parallel = FALSE; print=FALSE           
+    }
 
-    mc = match.call()
+    mc = match.call() # mc = NULL
     ##
     ## minor checks
     ##
@@ -82,7 +82,7 @@
     }else{
         mx.hat.Bp = matrix(NA,nrow=n.seed,ncol=n.par,
                            dimnames=list(vect.seed,names(pi0)))
-        for(sw in 1:n.seed){# sw=2
+        for(sw in 1:n.seed){# sw=1064
             mx.hat.Bp[sw,] = .iboot_seed(vect.seed[sw],par=pi0,
                       est=est,est.control=est.control,
                       gen=gen,gen.control=gen.control,
@@ -197,8 +197,9 @@
                     names(arg.conv)[1] = names(formals(convK))[1]
                     converged = try(R.utils::doCall(convK,args = arg.conv),silent=TRUE)
                     if(!is.logical(converged)){
-                        stop(paste0("non logical 'convK' output at iteration ",iter,
+                        .w(paste0("non logical 'convK' output at iteration ",iter,
                              " of seed ",inner.seed[seedw]))
+                        converged = FALSE
                     }else{if(converged){
                         if(print){cat("o")}
                         continue  = FALSE
