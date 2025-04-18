@@ -197,8 +197,10 @@
                     names(arg.conv)[1] = names(formals(convK))[1]
                     converged = try(R.utils::doCall(convK,args = arg.conv),silent=TRUE)
                     if(!is.logical(converged)){
-                        .w(paste0("non logical 'convK' output at iteration ",iter,
-                             " of seed ",inner.seed[seedw]))
+                        if(print){
+                            .w(paste0("non logical 'convK' output at iteration ",
+                               iter," of seed ",inner.seed[seedw]))                        
+                        }
                         converged = FALSE
                     }else{if(converged){
                         if(print){cat("o")}
