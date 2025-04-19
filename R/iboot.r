@@ -82,7 +82,7 @@
     }else{
         mx.hat.Bp = matrix(NA,nrow=n.seed,ncol=n.par,
                            dimnames=list(vect.seed,names(pi0)))
-        for(sw in 1:n.seed){# sw=1064
+        for(sw in 1:n.seed){# sw=4
             mx.hat.Bp[sw,] = .iboot_seed(vect.seed[sw],par=pi0,
                       est=est,est.control=est.control,
                       gen=gen,gen.control=gen.control,
@@ -131,7 +131,7 @@
                       convK=convK,convK.control=convK.control,
                       n.seed=n.seed,B1=B1, R=R,K=K,
                       plot=FALSE,print=print){
-    # par=pi0; plot=TRUE; seed=vect.seed[sw]
+    # par=pi0; plot=FALSE; print=TRUE; seed=vect.seed[4]
     out        = rep(NA,length(par))
     names(out) = names(par)
     inner.seed = seq(B1+seed,B1+seed+n.seed*R,n.seed)
@@ -165,6 +165,10 @@
             # Compute pi^*
             pistar = try(R.utils::doCall(est,
                          args = c(plyr::.(data=data.iter),est.control)),silent=TRUE)
+            #cat("\n\n\n")
+            #print(converged)
+            #print(iter)
+            #print(pistar)
             if(class(pistar)[1]=="try-error"){
                 if(print){cat("x")}
                 continue = FALSE 
@@ -182,8 +186,13 @@
                 arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),conv.control)     
                 names(arg.conv)[1] = names(formals(conv))[1]
                 converged = try(R.utils::doCall(conv,args = arg.conv),silent=TRUE)
-                if(!is.logical(converged)){
-                    stop(paste0("non logical 'conv' output at iteration ",iter," of seed ",inner.seed[seedw]))
+                #print(converged)
+                if(!is.logical(converged)|is.na(converged)){
+                    if(print){
+                        .w(paste0("non logical 'conv' output at iteration ",
+                           iter," of seed ",inner.seed[seedw]))
+                    }
+                    converged = FALSE
                 }else{if(converged){
                     if(print){cat("o")}
                     continue  = FALSE
@@ -196,10 +205,11 @@
                     arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),convK.control)    
                     names(arg.conv)[1] = names(formals(convK))[1]
                     converged = try(R.utils::doCall(convK,args = arg.conv),silent=TRUE)
-                    if(!is.logical(converged)){
+                    #print(converged)
+                    if(!is.logical(converged)|is.na(converged)){
                         if(print){
                             .w(paste0("non logical 'convK' output at iteration ",
-                               iter," of seed ",inner.seed[seedw]))                        
+                               iter," of seed ",inner.seed[seedw]))
                         }
                         converged = FALSE
                     }else{if(converged){
@@ -211,9 +221,10 @@
                 }
                 # continue
                 if(print&!converged){cat(".")}   
-                }}} 
-            }# if
-    }# end while-iter
+                }}
+            }# end if not try-error 
+        }# end while-iter
+    }# end while-seed
     out
 }
 
@@ -253,9 +264,15 @@
 #' @returns a logical
 #' @export
 .iboot.conv.lm = function(estimates,alpha){
-    K = nrow(estimates)
-    all(apply(estimates[(K/2):K,],2,function(x){
-        coef(summary(lm(x~I(1:length(x)))))[2,4]})>alpha)  
+    K    = nrow(estimates)
+    pval = apply(estimates[(K/2):K,],2,function(x){
+           coef(summary(lm(x~I(1:length(x)))))[2,4]})
+    if(any(is.na(pval))){
+        posw = which(is.na(pval))
+        pval[posw] = apply(estimates[(K/2):K,posw,drop=FALSE],2,function(x){
+                     coef(summary(lm(x~I(1:length(x)))))[2,1]})==0
+    }
+    all(pval>alpha)  
 }
 
 
