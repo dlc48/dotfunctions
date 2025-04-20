@@ -29,12 +29,12 @@
     # test
     if(FALSE){
         data = data_r 
-        est = est.fun; est.control=list(names=id.theta$id);
-        gen = sim.fun; gen.control=list(data=empty,X=X,Z1=Z1,Z2=Z2);
+        est = est.fun; est.control=list(names=id.theta$id, Xi=Xi);
+        gen = sim.fun; gen.control=list(data=empty,X=X,Z1=Z1,Z2=Z2,CUTOFF=CUTOFF);
         conv  = .iboot.conv.relative; conv.control = list(tol=1e-4);
-        convK = .iboot.conv.lm; convK.control = list(alpha=0.01); 
-        B = 1999; B1 = id.seed$value[seedw]; K=50; R=50; n.cores=10;
-        parallel = FALSE; print=FALSE           
+        convK = .iboot.conv.lm; convK.control = list(alpha=0.01, frac=1/4); 
+        B = 50; B1 = id.seed$value[seedw]; K=100; R=50; n.cores=10;
+        parallel = FALSE; print=TRUE           
     }
 
     mc = match.call() # mc = NULL
@@ -82,7 +82,7 @@
     }else{
         mx.hat.Bp = matrix(NA,nrow=n.seed,ncol=n.par,
                            dimnames=list(vect.seed,names(pi0)))
-        for(sw in 1:n.seed){# sw=4
+        for(sw in 1:n.seed){# sw=1
             mx.hat.Bp[sw,] = .iboot_seed(vect.seed[sw],par=pi0,
                       est=est,est.control=est.control,
                       gen=gen,gen.control=gen.control,
@@ -131,7 +131,7 @@
                       convK=convK,convK.control=convK.control,
                       n.seed=n.seed,B1=B1, R=R,K=K,
                       plot=FALSE,print=print){
-    # par=pi0; plot=FALSE; print=TRUE; seed=vect.seed[4]
+    # par=pi0; plot=TRUE; print=TRUE; seed=vect.seed[49]
     out        = rep(NA,length(par))
     names(out) = names(par)
     inner.seed = seq(B1+seed,B1+seed+n.seed*R,n.seed)
@@ -261,11 +261,12 @@
 #' @description Linear-model based assessment of IB convergence. In complex models and/or in models considering discrete responses, the same response vector can sometimes be obtained via different sets of parameters, often leading the implicit boostrap to go from a such a set to the next one between iterations. In such cases, fitting a linear model on parameter estimate vectors leads to slopes close to 0. It is what this function tests, typically when iteration K is reached, i.e, when k=K.
 #' @param estimates the (k x p) matrix of estimates, where k and p respecively denotes the number of iterations and total number of parameters.
 #' @param alpha the p-value cut-off value used to assess significance of the slope of each target parameter.
+#' @param frac the fraction of K to use to define assessment after K iterations (1/2 by default).
 #' @returns a logical
 #' @export
-.iboot.conv.lm = function(estimates,alpha){
+.iboot.conv.lm = function(estimates,alpha,frac=1/2){
     K    = nrow(estimates)
-    pval = apply(estimates[(K/2):K,],2,function(x){
+    pval = apply(estimates[floor(K*(1-frac)):K,],2,function(x){
            coef(summary(lm(x~I(1:length(x)))))[2,4]})
     if(any(is.na(pval))){
         posw = which(is.na(pval))
