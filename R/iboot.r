@@ -16,7 +16,7 @@
 #' @param K the maximum number of iterations to seek convergence for a given bootrap sample. If K=NULL (default), K is set to ceiling(10*log(N)) where N denotes the number of rows of the dataset provided in argument 'data'. 
 #' @param parallel a logical indicating if parallel computation should be used. If parallel = TRUE (default), package parallel with forking (ie, not possible for Windows at the moment). 
 #' @param n.cores number of cores for parallel computation. Default to 9.
-#' @param print a logical indicating if progress should be printed (useful for debugging). Default is print = TRUE. 
+#' @param print an integer of value 0 (nothing), 1 (prints B and R) or 2 (prints B, R and K) indicating how progress should be printed (useful for debugging). Default is print = 0. 
 #' @returns The function [.iboot] returns an S3 object of class 'iboot' with available print/summary/plot functions. 
 #' @export
 .iboot = function(  data, 
@@ -25,16 +25,16 @@
                     conv  = .iboot.conv.relative, conv.control = list(tol=1e-3),
                     convK = .iboot.conv.lm, convK.control = list(alpha=0.01),
                     B = 1999, B1 = 0, R = 49, K = NULL, 
-                    parallel = TRUE, n.cores = 9, print = TRUE){
+                    parallel = TRUE, n.cores = 9, print = 0){
     # test
     if(FALSE){
         data = data_r 
         est = est.fun; est.control=list(names=id.theta$id, Xi=Xi);
-        gen = sim.fun; gen.control=list(data=empty,X=X,Z1=Z1,Z2=Z2,CUTOFF=CUTOFF);
+        gen = sim.fun; gen.control=list(data=emptyw,X=Xw,Z1=Z1w,Z2=Z2w, CUTOFF=CUTOFF);
         conv  = .iboot.conv.relative; conv.control = list(tol=1e-4);
         convK = .iboot.conv.lm; convK.control = list(alpha=0.01, frac=1/4); 
-        B = 50; B1 = id.seed$value[seedw]; K=100; R=50; n.cores=10;
-        parallel = FALSE; print=TRUE           
+        B = 1999; B1 = id.seed$value[seedw]; K=100; R=50; n.cores=10;
+        parallel = TRUE; print=1           
     }
 
     mc = match.call() # mc = NULL
@@ -131,7 +131,7 @@
                       convK=convK,convK.control=convK.control,
                       n.seed=n.seed,B1=B1, R=R,K=K,
                       plot=FALSE,print=print){
-    # par=pi0; plot=TRUE; print=TRUE; seed=vect.seed[49]
+    # par=pi0; plot=TRUE; print=2; seed=vect.seed[49]
     out        = rep(NA,length(par))
     names(out) = names(par)
     inner.seed = seq(B1+seed,B1+seed+n.seed*R,n.seed)
@@ -140,7 +140,9 @@
     while(!converged & seedw<length(inner.seed)){
         # initialise
         seedw     = seedw+1
-        cat("\nstart seed",.ac(inner.seed[seedw]),"(",seedw,"/",length(inner.seed),")\n")
+        if(print>1){
+            cat("\nstart seed",.ac(inner.seed[seedw]),"(",seedw,"/",length(inner.seed),")\n")
+        }
         continue  = TRUE 
         iter      = 1
         mx.hat.kp = matrix(nrow=K+1,ncol=length(par),dimnames=list(1:(K+1),names(par)))
@@ -159,18 +161,14 @@
                             args = c(plyr::.(seed=as.character(inner.seed[seedw]), par=mx.hat.kp[iter-1,]),
                             gen.control)),silent=TRUE)
             if(class(data.iter)[1]=="try-error"){
-                if(print){cat("x")}
+                if(print==2){cat("x")}
                 continue = FALSE 
             }else{
             # Compute pi^*
             pistar = try(R.utils::doCall(est,
                          args = c(plyr::.(data=data.iter),est.control)),silent=TRUE)
-            #cat("\n\n\n")
-            #print(converged)
-            #print(iter)
-            #print(pistar)
             if(class(pistar)[1]=="try-error"){
-                if(print){cat("x")}
+                if(print==2){cat("x")}
                 continue = FALSE 
             }else{
                 if(all(is.na(pistar))){
@@ -186,41 +184,39 @@
                 arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),conv.control)     
                 names(arg.conv)[1] = names(formals(conv))[1]
                 converged = try(R.utils::doCall(conv,args = arg.conv),silent=TRUE)
-                #print(converged)
                 if(!is.logical(converged)|is.na(converged)){
-                    if(print){
+                    if(print==2){
                         .w(paste0("non logical 'conv' output at iteration ",
                            iter," of seed ",inner.seed[seedw]))
                     }
                     converged = FALSE
                 }else{if(converged){
-                    if(print){cat("o")}
+                    if(print==2){cat("o")}
                     continue  = FALSE
                     out = c(mx.hat.kp[iter,])                
                     }
                 }
                 # check if conv at last iter
                 if(iter==K&!converged){
-                    if(print){cat("|")}
+                    if(print==2){cat("|")}
                     arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),convK.control)    
                     names(arg.conv)[1] = names(formals(convK))[1]
                     converged = try(R.utils::doCall(convK,args = arg.conv),silent=TRUE)
-                    #print(converged)
                     if(!is.logical(converged)|is.na(converged)){
-                        if(print){
+                        if(print==2){
                             .w(paste0("non logical 'convK' output at iteration ",
                                iter," of seed ",inner.seed[seedw]))
                         }
                         converged = FALSE
                     }else{if(converged){
-                        if(print){cat("o")}
+                        if(print==2){cat("o")}
                         continue  = FALSE
                         out = c(mx.hat.kp[iter,])
                         }
                     }
                 }
                 # continue
-                if(print&!converged){cat(".")}   
+                if(print==2&!converged){cat(".")}   
                 }}
             }# end if not try-error 
         }# end while-iter
