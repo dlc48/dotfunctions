@@ -140,7 +140,7 @@
     while(!converged & seedw<length(inner.seed)){
         # initialise
         seedw     = seedw+1
-        if(print>1){
+        if(print>0){
             cat("\nstart seed",.ac(inner.seed[seedw]),"(",seedw,"/",length(inner.seed),")\n")
         }
         continue  = TRUE 
