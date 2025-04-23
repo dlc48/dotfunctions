@@ -27,15 +27,15 @@
                     B = 1999, B1 = 0, R = 49, K = NULL, 
                     parallel = TRUE, n.cores = 9, print = 0){
     # test
-    if(FALSE){
-        data = data_r 
-        est = est.fun; est.control=list(names=id.theta$id, Xi=Xi);
-        gen = sim.fun; gen.control=list(data=emptyw,X=Xw,Z1=Z1w,Z2=Z2w, CUTOFF=CUTOFF);
-        conv  = .iboot.conv.relative; conv.control = list(tol=1e-4);
-        convK = .iboot.conv.lm; convK.control = list(alpha=0.01, frac=1/4); 
-        B = 1999; B1 = id.seed$value[seedw]; K=100; R=50; n.cores=10;
-        parallel = TRUE; print=1           
-    }
+    # if(FALSE){
+    #     data = data_r 
+    #     est = est.fun; est.control=list(names=id.theta$id, Xi=Xi);
+    #     gen = sim.fun; gen.control=list(data=emptyw,X=Xw,Z1=Z1w,Z2=Z2w, CUTOFF=CUTOFF);
+    #     conv  = .iboot.conv.relative; conv.control = list(tol=1e-4);
+    #     convK = .iboot.conv.lm; convK.control = list(alpha=0.01, frac=1/4); 
+    #     B = 1999; B1 = id.seed$value[seedw]; K=100; R=50; n.cores=10;
+    #     parallel = TRUE; print=1           
+    # }
 
     mc = match.call() # mc = NULL
     ##
@@ -54,6 +54,7 @@
         warning("no parallel option for windows at the moment")
     }
     B1 = B1*10^(nchar(.ac(B*R)))
+    print = .an(print) # backward compatibility 
 
     ##
     ## pi0: queen
