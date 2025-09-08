@@ -20,7 +20,7 @@
 
     nameobj = deparse(match.call()[[2]])
     cl      = class(obj)
-    if(inherits(obj,"data.table")){obj = .adf(obj)}
+    if(inherits(obj,"tbl")){obj = .adf(obj)}
     # max dim and length for vectors, matrices, dataframes, arrays and lists
     dim1b=round(dim1/2,0);dim1=2*dim1b
     dim2b=round(dim2/2,0);dim2=2*dim2b
