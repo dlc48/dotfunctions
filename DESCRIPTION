@@ -6,6 +6,6 @@ Authors@R:
 Description: (Personal) R functions: as with any package, exercise caution and maintain a reasonable level of scepticism.
 License: GPL-2
 Encoding: UTF-8
-Imports: nlme, BiocManager, readxl, colorspace, rlang, R.utils, plyr
+Imports: nlme, BiocManager, readxl, colorspace, rlang, R.utils, plyr, sm
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

@@ -233,13 +233,12 @@
 #' @param boxplot A \link[base]{logical} (with default set to `TRUE`) indicating if a boxplot should be drawn, or a list with names `col`, `border`, `width` and `lwd`, respectively indicating i/ the colour of the boxplot, ii/ the colour of the border of the boxplot, iii/ the boxplot width, and iv/ the tickness of the boxplot border. The input `boxplot = TRUE` is equivalent to `boxplot = list(col="#8B897040", border=gray(.2),width =.05,lwd=1)`. 
 #' @param points A \link[base]{logical} (with default set to `TRUE`) indicating if individual points should be drawn, or a list with names `col`, `pch`, `cex`, respectively indicating i/ the colour(s), ii/ the symbol(s) , iii/ the expension factor(s) of the points, and iv/ the level of jittering for the points on the y-axis. The input `points = TRUE` is equivalent to `points = list(col="#2E008B", pch=16, cex=1, jitter=0)`. `jitter=0.25` add a uniform noise with distribution `U[-0.25,0.25]` to the data (might be useful for counts).
 #' @param first A character indicating if the `points` or the violin plot should be plotted first. Default to `points`.
-#' @param ... Additional arguments affecting the plot produced, like col, lwd.
 #' @seealso \link[sm]{sm.density} 
 #' @export
 #' @examples
 #' \dontrun{
 #'   data = data.frame(norm=rnorm(500,rep(c(0,5),each=250),1),
-#'                    unif=runif(500,-2,6))    
+#'                    unif=stats::runif(500,-2,6))    
 #'  .ep(c(.5,2.5), range(data))
 #'   axis(1, at  = 1:ncol(data), colnames(data))
 #'   axis(2, las = 2)
@@ -320,13 +319,13 @@
     for(pw in 1:n.p){# pw=1
         violin.density = .violin.density(data[,pw], h=h)
         #
-        epsilon.x = rnorm(violin.density$n,rep(0,violin.density$n),
-                          sqrt(violin.density$pw.freq/
-                          max(violin.density$pw.freq))*.15)        
+        epsilon.x = stats::rnorm(violin.density$n,rep(0,violin.density$n),
+                        sqrt(violin.density$pw.freq/
+                        max(violin.density$pw.freq))*.15)        
         epsilon.y = if(points.jitter==0){
                         0
                     }else{
-                        runif(violin.density$n,-points.jitter,points.jitter)
+                        stats::runif(violin.density$n,-points.jitter,points.jitter)
                     }
         #
         if(first=="points"){
@@ -339,19 +338,19 @@
                 violin.density$sm.density[length(violin.density$sm.density):1])
         yy = c(violin.density$sm.points, 
                violin.density$sm.points[length(violin.density$sm.points):1])
-        polygon(xx+at[pw], yy, col=violin.col, border=violin.border, 
+        graphics::polygon(xx+at[pw], yy, col=violin.col, border=violin.border, 
                 lwd=violin.lwd)
         # boxplot
-        segments(at[pw],violin.density$quantile[1],
+        graphics::segments(at[pw],violin.density$quantile[1],
                  at[pw],violin.density$quantile[2],
                  col=boxplot.border, lwd=boxplot.lwd)
-        segments(at[pw],violin.density$quantile[4],
+        graphics::segments(at[pw],violin.density$quantile[4],
                  at[pw],violin.density$quantile[5],
                  col=boxplot.border, lwd=boxplot.lwd)
-        rect(at[pw]-boxplot.width, violin.density$quantile[2], 
+        graphics::rect(at[pw]-boxplot.width, violin.density$quantile[2], 
              at[pw]+boxplot.width, violin.density$quantile[4], 
              col=boxplot.col, border=boxplot.border, lwd=boxplot.lwd)
-        segments(at[pw]-boxplot.width,violin.density$quantile[3],
+        graphics::segments(at[pw]-boxplot.width,violin.density$quantile[3],
                  at[pw]+boxplot.width,violin.density$quantile[3],
                  col=boxplot.border, lwd=boxplot.lwd)
         # points
@@ -361,11 +360,8 @@
                    col=points.col,pch=points.pch,cex=points.cex)
         }
     } 
+}
 
-
-
-
- }
 
 
 
@@ -406,12 +402,164 @@
 }
 
 
-   data = data.frame(norm=rnorm(500,rep(c(0,5),each=250),1),
-                    unif=runif(500,-2,6))    
-  .ep(c(.5,2.5), range(data))
-   axis(1, at  = 1:ncol(data), colnames(data))
-   axis(2, las = 2)
-  .violin(data)
+
+#' @name .hist
+#' @title Non-paramteric density plots 
+#' @description Adds non-paramteric density plots to a plot (typically created by [.ep]). 
+#' @param data A vector or matrix of numerical values.
+#' @param h A numeric (data is a vector) or vector of numerical values (data is a matrix) corresponding to the smoothing parameter to use. Default to 1. When `h=NULL`, the smoothing value is optimised in the \link[sm]{sm.density} function (Good luck with that).
+#' @param col A character (data is a vector) or vector of characters (data is a matrix) corresponding to the colours to use. Default set to `NULL` in which case \link[grDevices]{rainbow} is used with 50% transluency.
+#' @param border A character (data is a vector) or vector of characters (data is a matrix) corresponding to the colours to use. Default set to `NULL` in which case \link[grDevices]{rainbow} is used without transluency.
+#' @param lwd A numeric (data is a vector) or vector of numerical values (data is a matrix) corresponding to the border thickness to use. Default to 1.
+#' @param points A \link[base]{logical} (with default set to `TRUE`) indicating if individual points should be drawn, or a list with names `col`, `pch`, `cex`, respectively indicating i/ the colour(s), ii/ the symbol(s) , iii/ the expension factor(s) of the points, and iv/ the level of jittering for the points on the x-axis. The input `points = TRUE` is equivalent to `points = list(col=NULL, pch=16, cex=1, jitter=0)`. `jitter=0.25` add a uniform noise with distribution `U[-0.25,0.25]` to the data (might be useful for counts). When `col=NULL` (the default), the same colour as for the non-parametric density plot is used.
+#' @param first A character indicating if the `points` or the non-paramteric density plot should be plotted first. Default to `points`.
+#' @seealso \link[grDevices]{rainbow}, \link[sm]{sm.density} 
+#' @export
+#' @examples
+#' \dontrun{
+#'   data = data.frame(norm=rnorm(500,rep(c(0,5),each=250),1),
+#'                    unif=stats::runif(500,-2,6))    
+#'  .ep(range(data), c(0, 0.75))
+#'   axis(1)
+#'   axis(2, las = 2)
+#'  .hist(data)
+#' } 
+.hist = function(data, h=1, col=NULL, border=NULL, 
+                 lwd=1, points=TRUE, first="points"){
+    # first
+    if(is.na(match(first,c("hist","points")))){
+        stop(.w("'first' should either be set to'hist' or 'points'"))
+    }
+    # p
+    n.p = ifelse(inherits(data,"data.frame")|inherits(data,"matrix"),ncol(data), 1)
+    if(n.p==1){ data=matrix(data,ncol=1)}
+    # col
+    if(is.null(col)){
+        col = .p(rainbow(n.p),50)
+    }else{
+        if(length(col)==1){
+            col = rep(col,n.p)
+        }else{
+            if(length(col)!=n.p){stop(.w("check your 'col' input"))}
+        }
+    }   
+    # border
+    if(is.null(border)){
+        border = rainbow(n.p)
+    }else{
+        if(length(border)==1){
+            border = rep(border,n.p)
+        }else{
+            if(length(border)!=n.p){stop(.w("check your 'border' input"))}
+        }
+    }   
+    # lwd
+    if(length(lwd)==1){
+        lwd = rep(lwd,n.p)
+    }else{
+        if(length(lwd)!=n.p){stop(.w("check your 'lwd' input"))}
+    }    
+    # points
+    if(is.list(points)){# points = list(col="green", cex=1.25)
+        points.col    = if(!is.null(points[["col"]])){
+                            if(length(points[["col"]])==1){
+                                rep(points[["col"]],n.p)
+                            }else{
+                                if(length(points[["col"]])!=n.p){
+                                    .w("check length of 'points$col'")
+                                }
+                                points[["col"]]
+                            }
+                        }else{
+                            col
+                        }
+        points.pch    = if(!is.null(points[["pch"]])){
+                            if(length(points[["pch"]])==1){
+                                rep(points[["pch"]],n.p)
+                            }else{
+                                if(length(points[["pch"]])!=n.p){
+                                    .w("check length of 'points$pch'")
+                                }
+                                points[["pch"]]
+                            }
+                        }else{
+                            rep(16, n.p)
+                        }
+        points.cex    = if(!is.null(points[["cex"]])){
+                            if(length(points[["cex"]])==1){
+                                rep(points[["cex"]],n.p)
+                            }else{
+                                if(length(points[["cex"]])!=n.p){
+                                    .w("check length of 'points$cex'")
+                                }
+                                points[["cex"]]
+                            }
+                        }else{
+                            rep(1, n.p)
+                        }
+        points.jitter = if(!is.null(points[["jitter"]])){
+                            if(length(points[["jitter"]])==1){
+                                rep(points[["jitter"]],n.p)
+                            }else{
+                                if(length(points[["jitter"]])!=n.p){
+                                    .w("check length of 'points$jitter'")
+                                }
+                                points[["jitter"]]
+                            }
+                        }else{
+                            rep(0, n.p)
+                        }
+        points        = TRUE
+    }else{
+        if(!is.logical(points)){
+            stop("'points' should be a list or a logical")
+        }else{
+            if(points){
+                points.col    = col   
+                points.pch    = rep(16,n.p)
+                points.cex    = rep(1,n.p)
+                points.jitter = rep(0,n.p)
+            }
+        }
+    }
+    # h
+    if(length(h)==1){
+        h = rep(h,n.p)
+    }
+    if(any(h<0)|any(is.na(h))){
+        stop(.w("check your 'h' input"))
+    }
+    # plot
+    for(pw in 1:n.p){# pw=1
+        violin.density = .violin.density(data[,pw], h=h[pw])
+        #
+        epsilon.y = abs(stats::rnorm(violin.density$n,rep(0,violin.density$n),
+                        sqrt(violin.density$pw.freq/
+                        max(violin.density$pw.freq))*.15))        
+        epsilon.x = if(points.jitter[pw]==0){
+                        0
+                    }else{
+                        stats::runif(violin.density$n,-points.jitter,points.jitter)
+                    }
+        #
+        if(first=="points"){
+            points(data[,pw]+epsilon.x,
+                   epsilon.y,
+                   col=points.col[pw],pch=points.pch[pw],cex=points.cex[pw])
+        }
+        # violin
+        .polygon(violin.density$sm.points, violin.density$sm.density, 
+                 col=col[pw], border=border[pw], lwd=lwd[pw])
+        # points
+        if(first=="hist"){
+            points(data[,pw]+epsilon.x,
+                   epsilon.y,
+                   col=points.col[pw],pch=points.pch[pw],cex=points.cex[pw])
+        }
+    } 
+
+
+}
 
 
 

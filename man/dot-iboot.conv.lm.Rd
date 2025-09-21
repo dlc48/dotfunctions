@@ -4,12 +4,14 @@
 \alias{.iboot.conv.lm}
 \title{IB final convergence assessment}
 \usage{
-.iboot.conv.lm(estimates, alpha)
+.iboot.conv.lm(estimates, alpha, frac = 1/2)
 }
 \arguments{
 \item{estimates}{the (k x p) matrix of estimates, where k and p respecively denotes the number of iterations and total number of parameters.}
 
 \item{alpha}{the p-value cut-off value used to assess significance of the slope of each target parameter.}
+
+\item{frac}{the fraction of K to use to define assessment after K iterations (1/2 by default).}
 }
 \value{
 a logical

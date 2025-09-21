@@ -20,7 +20,7 @@
   K = NULL,
   parallel = TRUE,
   n.cores = 9,
-  print = TRUE
+  print = 0
 )
 }
 \arguments{
@@ -54,7 +54,7 @@
 
 \item{n.cores}{number of cores for parallel computation. Default to 9.}
 
-\item{print}{a logical indicating if progress should be printed (useful for debugging). Default is print = TRUE.}
+\item{print}{an integer of value 0 (nothing), 1 (prints B and R) or 2 (prints B, R and K) indicating how progress should be printed (useful for debugging). Default is print = 0.}
 }
 \value{
 The function \link{.iboot} returns an S3 object of class 'iboot' with available print/summary/plot functions.
