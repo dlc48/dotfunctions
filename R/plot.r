@@ -223,3 +223,197 @@
 }
 
 
+#' @name .violin
+#' @title Violin plot 
+#' @description Adds violin density estimates to a plot (typically created by [.ep]). 
+#' @param data A vector or matrix of numerical values.
+#' @param at A scalar if `data` is a vector, or a vector of scalars if `data` if a matrix. When `at=NULL` (default), value `1` and `1:p` are respectively used if data is a vector or a matrix, where `p` denote the number of columns of the matrix.
+#' @param h A numeric corresponding to the smoothing parameter. Default to 1. When `h=NULL`, the smoothing value is optimised in the \link[sm]{sm.density} function (Good luck with that).
+#' @param violin A \link[base]{logical} (with default set to `TRUE`) indicating if the violin plot should be drawn, or a list with names `col`, `border`, and `lwd`, respectively indicating i/ the background colour, ii/ the colour of the border, and iii/ the tickness of the border. The input `violin = TRUE` is equivalent to `violin = list(col="#8B897040", border=gray(0),lwd=1)`. 
+#' @param boxplot A \link[base]{logical} (with default set to `TRUE`) indicating if a boxplot should be drawn, or a list with names `col`, `border`, `width` and `lwd`, respectively indicating i/ the colour of the boxplot, ii/ the colour of the border of the boxplot, iii/ the boxplot width, and iv/ the tickness of the boxplot border. The input `boxplot = TRUE` is equivalent to `boxplot = list(col="#8B897040", border=gray(.2),width =.05,lwd=1)`. 
+#' @param points A \link[base]{logical} (with default set to `TRUE`) indicating if individual points should be drawn, or a list with names `col`, `pch`, `cex`, respectively indicating i/ the colour(s), ii/ the symbol(s) , iii/ the expension factor(s) of the points, and iv/ the level of jittering for the points on the y-axis. The input `points = TRUE` is equivalent to `points = list(col="#2E008B", pch=16, cex=1, jitter=0)`. `jitter=0.25` add a uniform noise with distribution `U[-0.25,0.25]` to the data (might be useful for counts).
+#' @param first A character indicating if the `points` or the violin plot should be plotted first. Default to `points`.
+#' @param ... Additional arguments affecting the plot produced, like col, lwd.
+#' @seealso \link[sm]{sm.density} 
+#' @export
+#' @examples
+#' \dontrun{
+#'   data = data.frame(norm=rnorm(500,rep(c(0,5),each=250),1),
+#'                    unif=runif(500,-2,6))    
+#'  .ep(c(.5,2.5), range(data))
+#'   axis(1, at  = 1:ncol(data), colnames(data))
+#'   axis(2, las = 2)
+#'  .violin(data)
+#' } 
+.violin = function(data, at=NULL, h=1, violin=TRUE, boxplot=TRUE, 
+                   points=TRUE, first="points"){
+    # first
+    if(is.na(match(first,c("violin","points")))){
+        stop(.w("'first' should either be set to'violin' or 'points'"))
+    }
+    # p
+    n.p = ifelse(inherits(data,"data.frame")|inherits(data,"matrix"),ncol(data), 1)
+    if(n.p==1){ data=matrix(data,ncol=1)}
+    if(!is.null(at)){
+        if(length(at)!=n.p){
+            stop(.w("length of 'at' should match number of columns of 'data'"))        
+        }
+    }else{
+        at = 1:n.p
+    }
+    # legend
+    if(is.list(violin)){# violin = list(col="green", cex=1.25)
+        violin.col    = ifelse(!is.null(violin[["col"]]),violin[["col"]],"#8B897040")        
+        violin.border = ifelse(!is.null(violin[["border"]]),violin[["border"]],gray(0))    
+        violin.lwd    = ifelse(!is.null(violin[["lwd"]]),violin[["lwd"]],1)    
+        violin        = TRUE
+    }else{
+        if(!is.logical(violin)){
+            stop("'violin' should be a list or a logical")
+        }else{
+            if(violin){
+                violin.col    = "#8B897040"      
+                violin.border = gray(0)
+                violin.lwd    = 1
+            }
+        }
+    }
+    # boxplot
+    if(is.list(boxplot)){# boxplot = list(col="green", cex=1.25)
+        boxplot.col    = ifelse(!is.null(boxplot[["col"]]),boxplot[["col"]],"#FFD70070")        
+        boxplot.border = ifelse(!is.null(boxplot[["border"]]),boxplot[["border"]],gray(.2))    
+        boxplot.width  = ifelse(!is.null(boxplot[["width"]]),boxplot[["width"]],.05)
+        boxplot.lwd    = ifelse(!is.null(boxplot[["lwd"]]),boxplot[["lwd"]],1)    
+        boxplot        = TRUE
+    }else{
+        if(!is.logical(boxplot)){
+            stop("'boxplot' should be a list or a logical")
+        }else{
+            if(boxplot){
+                boxplot.col    = "#FFD70070"      
+                boxplot.border = gray(.2)
+                boxplot.width  = .05
+                boxplot.lwd    = 1
+            }
+        }
+    }
+    # points
+    if(is.list(points)){# points = list(col="green", cex=1.25)
+        points.col    = ifelse(!is.null(points[["col"]]),points[["col"]],"#2E008B90")        
+        points.pch    = ifelse(!is.null(points[["pch"]]),points[["pch"]],16)    
+        points.cex    = ifelse(!is.null(points[["cex"]]),points[["cex"]],1)
+        points.jitter = ifelse(!is.null(points[["jitter"]]),points[["jitter"]],0)    
+        points        = TRUE
+    }else{
+        if(!is.logical(points)){
+            stop("'points' should be a list or a logical")
+        }else{
+            if(points){
+                points.col    = "#2E008B90"    
+                points.pch    = 16
+                points.cex    = 1
+                points.jitter = 0
+            }
+        }
+    }
+    # plot
+    for(pw in 1:n.p){# pw=1
+        violin.density = .violin.density(data[,pw], h=h)
+        #
+        epsilon.x = rnorm(violin.density$n,rep(0,violin.density$n),
+                          sqrt(violin.density$pw.freq/
+                          max(violin.density$pw.freq))*.15)        
+        epsilon.y = if(points.jitter==0){
+                        0
+                    }else{
+                        runif(violin.density$n,-points.jitter,points.jitter)
+                    }
+        #
+        if(first=="points"){
+            points(rep(at[pw],violin.density$n)+epsilon.x,
+                   data[,pw]+epsilon.y,
+                   col=points.col,pch=points.pch,cex=points.cex)
+        }
+        # violin
+        xx = c(-violin.density$sm.density, 
+                violin.density$sm.density[length(violin.density$sm.density):1])
+        yy = c(violin.density$sm.points, 
+               violin.density$sm.points[length(violin.density$sm.points):1])
+        polygon(xx+at[pw], yy, col=violin.col, border=violin.border, 
+                lwd=violin.lwd)
+        # boxplot
+        segments(at[pw],violin.density$quantile[1],
+                 at[pw],violin.density$quantile[2],
+                 col=boxplot.border, lwd=boxplot.lwd)
+        segments(at[pw],violin.density$quantile[4],
+                 at[pw],violin.density$quantile[5],
+                 col=boxplot.border, lwd=boxplot.lwd)
+        rect(at[pw]-boxplot.width, violin.density$quantile[2], 
+             at[pw]+boxplot.width, violin.density$quantile[4], 
+             col=boxplot.col, border=boxplot.border, lwd=boxplot.lwd)
+        segments(at[pw]-boxplot.width,violin.density$quantile[3],
+                 at[pw]+boxplot.width,violin.density$quantile[3],
+                 col=boxplot.border, lwd=boxplot.lwd)
+        # points
+        if(first=="violin"){
+            points(rep(at[pw],violin.density$n)+epsilon.x,
+                   data[,pw]+epsilon.y,
+                   col=points.col,pch=points.pch,cex=points.cex)
+        }
+    } 
+
+
+
+
+ }
+
+
+
+#' @name violin.density
+#' @title Violin plot density estimates
+#' @description Extracts density estimates for a violin plot. 
+#' @param data data vector.
+#' @param h a scalar corresponding to the smoothing parameter.
+#' @returns a list of coordinates and corresponding density values.
+#' @seealso \link[sm]{sm.density} 
+.violin.density = function(data, h=NULL){
+    data      = data[!is.na(data)]
+    quantilew = quantile(data, prob=c(0,.25,.5,.75,1))
+    iqrw      = quantilew[4] - quantilew[2]
+    upper     = min(quantilew[4] + 1.5 * iqrw, quantilew[5])
+    lower     = max(quantilew[2] - 1.5 * iqrw, quantilew[1])
+    rangew    = c(min(lower, quantilew[1]), max(upper, quantilew[5]))
+    argw      = list(display="none",h=h)
+    # sm
+    if(is.null(h)){
+        smoothw   = do.call(sm::sm.density, c(list(data, xlim = rangew, display="none")))
+    }else{
+        smoothw   = do.call(sm::sm.density, c(list(data, xlim = rangew, display="none", h=h)))
+    }
+    # block
+    n.lim   = min(100,length(unique(data)))
+    lim     = seq(quantilew[1],quantilew[5],length=n.lim)
+    pw.data = rep(n.lim, length(data))
+    for(lw in n.lim:1){
+        pw.data[data<=lim[lw]] = lw
+    }
+    pw.freq = tabulate(pw.data)/length(data)
+    # 
+    list(sm.points  = smoothw$eval.points,
+         sm.density = smoothw$estimate * 0.4/max(smoothw$estimate),
+         quantile   = c(lower,quantilew[2:4],upper), range=rangew, mean=mean(data),
+         data       = data, n=length(data), pw.freq = pw.freq[pw.data])
+}
+
+
+   data = data.frame(norm=rnorm(500,rep(c(0,5),each=250),1),
+                    unif=runif(500,-2,6))    
+  .ep(c(.5,2.5), range(data))
+   axis(1, at  = 1:ncol(data), colnames(data))
+   axis(2, las = 2)
+  .violin(data)
+
+
+
+
+
