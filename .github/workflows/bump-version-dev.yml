@@ -36,7 +36,7 @@ jobs:
       - name: Bump minor version
         id: bump
         run: |
-          Rscript -e 'usethis::use_version("dev")'
+          Rscript -e 'usethis::use_version("patch")'
           ver=$(grep '^Version:' DESCRIPTION | awk '{print $2}')
           echo "new_version=$ver" >> "$GITHUB_OUTPUT"
 
