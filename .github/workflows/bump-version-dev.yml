@@ -1,0 +1,57 @@
+name: Bump Dev Version
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libgit2-dev libssl-dev
+
+      - name: Install usethis and dependencies
+        run: |
+          Rscript -e "install.packages(c('curl', 'gert', 'gh', 'credentials', 'httr2', 'usethis'), repos='https://cloud.r-project.org')"
+
+      - name: Bump minor version
+        id: bump
+        run: |
+          Rscript -e 'usethis::use_version("dev")'
+          ver=$(grep '^Version:' DESCRIPTION | awk '{print $2}')
+          echo "new_version=$ver" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push changes
+        env:
+          NEW_VER: ${{ steps.bump.outputs.new_version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git add DESCRIPTION || true
+          git commit -m "Bump dev version ${NEW_VER}"
+          git push origin HEAD:main
