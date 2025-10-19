@@ -10,6 +10,7 @@
   h = 1,
   violin = TRUE,
   boxplot = TRUE,
+  horizontal = FALSE,
   points = TRUE,
   first = "points"
 )
@@ -24,6 +25,8 @@
 \item{violin}{A \link[base]{logical} (with default set to \code{TRUE}) indicating if the violin plot should be drawn, or a list with names \code{col}, \code{border}, and \code{lwd}, respectively indicating i/ the background colour, ii/ the colour of the border, and iii/ the tickness of the border. The input \code{violin = TRUE} is equivalent to \code{violin = list(col="#8B897040", border=gray(0),lwd=1)}.}
 
 \item{boxplot}{A \link[base]{logical} (with default set to \code{TRUE}) indicating if a boxplot should be drawn, or a list with names \code{col}, \code{border}, \code{width} and \code{lwd}, respectively indicating i/ the colour of the boxplot, ii/ the colour of the border of the boxplot, iii/ the boxplot width, and iv/ the tickness of the boxplot border. The input \code{boxplot = TRUE} is equivalent to \code{boxplot = list(col="#8B897040", border=gray(.2),width =.05,lwd=1)}.}
+
+\item{horizontal}{A \link[base]{logical} (with default set to \code{FALSE}) indicating if the plot should be horizontal or vertical.}
 
 \item{points}{A \link[base]{logical} (with default set to \code{TRUE}) indicating if individual points should be drawn, or a list with names \code{col}, \code{pch}, \code{cex}, respectively indicating i/ the colour(s), ii/ the symbol(s) , iii/ the expension factor(s) of the points, and iv/ the level of jittering for the points on the y-axis. The input \code{points = TRUE} is equivalent to \code{points = list(col="#2E008B", pch=16, cex=1, jitter=0)}. \code{jitter=0.25} add a uniform noise with distribution \code{U[-0.25,0.25]} to the data (might be useful for counts).}
 
