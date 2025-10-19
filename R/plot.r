@@ -313,6 +313,8 @@
                 points.pch    = 16
                 points.cex    = 1
                 points.jitter = 0
+            }else{
+                points.jitter = 0
             }
         }
     }
