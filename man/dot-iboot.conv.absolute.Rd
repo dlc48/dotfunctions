@@ -4,12 +4,16 @@
 \alias{.iboot.conv.absolute}
 \title{IB convergence assessment}
 \usage{
-.iboot.conv.absolute(estimates, tol)
+.iboot.conv.absolute(estimates, tol, lag = 1, min.iter = 10)
 }
 \arguments{
 \item{estimates}{the (k x p) matrix of estimates, where K and p respecively denotes the maximum number of iterations and total number of parameters.}
 
 \item{tol}{a convergence relative tolerance value. Default is tol = 1e-3.}
+
+\item{lag}{a vector of (positive) scalars indicating to which previous iterations the current estimates would be compared to. Indicate lag=1 for a comparison with estimates at the previous iteration (default to 1).}
+
+\item{min.iter}{a scalar, the minimum number of iterations required to assess convergence (default to 10).}
 }
 \value{
 a logical

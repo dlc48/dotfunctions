@@ -28,13 +28,13 @@
                     parallel = TRUE, n.cores = 9, print = 0){
     # test
     # if(FALSE){
-    #     data = data_r 
-    #     est = est.fun; est.control=list(names=id.theta$id, Xi=Xi);
-    #     gen = sim.fun; gen.control=list(data=emptyw,X=Xw,Z1=Z1w,Z2=Z2w, CUTOFF=CUTOFF);
-    #     conv  = .iboot.conv.relative; conv.control = list(tol=1e-4);
-    #     convK = .iboot.conv.lm; convK.control = list(alpha=0.01, frac=1/4); 
-    #     B = 1999; B1 = id.seed$value[seedw]; K=100; R=50; n.cores=10;
-    #     parallel = TRUE; print=1           
+    #     data = data 
+    #     est = est1.fun; est.control=list(mu.formula=mu.formula0,sigma.formula=sigma.formula);
+    #     gen = sim.fun; gen.control=list(empty=empty,X.mu=X.mu,X.sigma=X.sigma,cutoff=cutoff);
+    #     conv  = .iboot.conv.relative; conv.control = list(tol=1e-4, min.iter=20, lag=1);
+    #     convK = .iboot.conv.lm; convK.control = list(alpha=0.05, frac=1/4); 
+    #     B = 1999; B1 = id.seed$value[sw]; K=100; R=50; n.cores=10;
+    #     parallel = TRUE; print=2          
     # }
 
     mc = match.call() # mc = NULL
@@ -83,14 +83,14 @@
     }else{
         mx.hat.Bp = matrix(NA,nrow=n.seed,ncol=n.par,
                            dimnames=list(vect.seed,names(pi0)))
-        for(sw in 1:n.seed){# sw=1
+        for(sw in 1:n.seed){# sw=0; sw=sw+1
             mx.hat.Bp[sw,] = .iboot_seed(vect.seed[sw],par=pi0,
                       est=est,est.control=est.control,
                       gen=gen,gen.control=gen.control,
                       conv=conv,conv.control=conv.control,
                       convK=convK,convK.control=convK.control,
                       n.seed=n.seed,B1=B1,R=R,K=K,
-                      plot=FALSE,print=print)
+                      plot=TRUE,print=print)
         }
     }
     ##
@@ -132,7 +132,7 @@
                       convK=convK,convK.control=convK.control,
                       n.seed=n.seed,B1=B1, R=R,K=K,
                       plot=FALSE,print=print){
-    # par=pi0; plot=TRUE; print=2; seed=vect.seed[49]
+    # par=pi0; plot=TRUE; print=2; seed=vect.seed[sw]
     out        = rep(NA,length(par))
     names(out) = names(par)
     inner.seed = seq(B1+seed,B1+seed+n.seed*R,n.seed)
@@ -184,7 +184,7 @@
                 # check convergence     
                 arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),conv.control)     
                 names(arg.conv)[1] = names(formals(conv))[1]
-                converged = try(R.utils::doCall(conv,args = arg.conv),silent=TRUE)
+                converged = try(R.utils::doCall(conv,args = arg.conv),silent=FALSE)
                 if(!is.logical(converged)|is.na(converged)){
                     if(print==2){
                         .w(paste0("non logical 'conv' output at iteration ",
@@ -231,12 +231,28 @@
 #' @description Assessment of IB convergence by comparing estimates at iteration k to estimates at iteration k-1 in absolute terms and checking if the sum is smaller than the tolerence value.
 #' @param estimates the (k x p) matrix of estimates, where K and p respecively denotes the maximum number of iterations and total number of parameters.
 #' @param tol a convergence relative tolerance value. Default is tol = 1e-3. 
+#' @param lag a vector of (positive) scalars indicating to which previous iterations the current estimates would be compared to. Indicate lag=1 for a comparison with estimates at the previous iteration (default to 1).
+#' @param min.iter a scalar, the minimum number of iterations required to assess convergence (default to 10). 
 #' @returns a logical
 #' @export
-.iboot.conv.absolute = function(estimates,tol){
+.iboot.conv.absolute = function(estimates,tol,lag=1,min.iter=10){
+    min.iter = max(min.iter,max(lag)+1)
     k = nrow(estimates)
-    sum(abs(estimates[k,]-estimates[k-1,])) < tol  
+    if(k>=min.iter){
+        n.lag = length(lag)
+        converged = rep(NA,n.lag)
+        for(lw in 1:n.lag){
+            converged[lw] = sum(abs(estimates[k,]-estimates[k-1,])) 
+            cat(converged[lw],"\t") 
+        }
+        cat("\n")
+        converged = all(converged < tol)
+    }else{
+        converged = FALSE
+    } 
+    converged
 }
+
 
 
 
@@ -245,11 +261,26 @@
 #' @description Assessment of IB convergence by comparing estimates at iteration k to estimates at iteration k-1 in relative terms and checking if the sum of the squared relative difference is smaller than the tolerence value.
 #' @param estimates the (k x p) matrix of estimates, where K and p respecively denotes the maximum number of iterations and total number of parameters.
 #' @param tol a convergence relative tolerance value. Default is tol = 1e-3. 
+#' @param lag a vector of (positive) scalars indicating to which previous iterations the current estimates would be compared to. Indicate lag=1 for a comparison with estimates at the previous iteration (default to 1).
+#' @param min.iter a scalar, the minimum number of iterations required to assess convergence (default to 10). 
 #' @returns a logical
 #' @export
-.iboot.conv.relative = function(estimates,tol){
+.iboot.conv.relative = function(estimates,tol,lag=1,min.iter=10){
+    min.iter = max(min.iter,max(lag)+1)
     k = nrow(estimates)
-    sum((estimates[k,]/estimates[k-1,]-1)^2) < tol  
+    if(k>=min.iter){
+        n.lag = length(lag)
+        converged = rep(NA,n.lag)
+        for(lw in 1:n.lag){
+            converged[lw] = sum((estimates[k,]/estimates[k-lag[lw],]-1)^2) 
+            cat(converged[lw],"\t") 
+        }
+        cat("\n")
+        converged = all(converged < tol)
+    }else{
+        converged = FALSE
+    } 
+    converged
 }
 
 
@@ -270,7 +301,7 @@
         pval[posw] = apply(estimates[(K/2):K,posw,drop=FALSE],2,function(x){
                      coef(summary(lm(x~I(1:length(x)))))[2,1]})==0
     }
-    all(pval>alpha)  
+    all(pval>alpha) 
 }
 
 
