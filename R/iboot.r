@@ -243,9 +243,7 @@
         converged = rep(NA,n.lag)
         for(lw in 1:n.lag){
             converged[lw] = sum(abs(estimates[k,]-estimates[k-1,])) 
-            cat(converged[lw],"\t") 
         }
-        cat("\n")
         converged = all(converged < tol)
     }else{
         converged = FALSE
@@ -273,9 +271,7 @@
         converged = rep(NA,n.lag)
         for(lw in 1:n.lag){
             converged[lw] = sum((estimates[k,]/estimates[k-lag[lw],]-1)^2) 
-            cat(converged[lw],"\t") 
         }
-        cat("\n")
         converged = all(converged < tol)
     }else{
         converged = FALSE
