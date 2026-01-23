@@ -90,7 +90,7 @@
                       conv=conv,conv.control=conv.control,
                       convK=convK,convK.control=convK.control,
                       n.seed=n.seed,B1=B1,R=R,K=K,
-                      plot=TRUE,print=print)
+                      plot=FALSE,print=print)
         }
     }
     ##
