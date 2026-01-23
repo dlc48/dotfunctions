@@ -184,7 +184,7 @@
                 # check convergence     
                 arg.conv = c(plyr::.(estimates=mx.hat.kp[1:iter,]),conv.control)     
                 names(arg.conv)[1] = names(formals(conv))[1]
-                converged = try(R.utils::doCall(conv,args = arg.conv),silent=FALSE)
+                converged = try(R.utils::doCall(conv,args = arg.conv),silent=TRUE)
                 if(!is.logical(converged)|is.na(converged)){
                     if(print==2){
                         .w(paste0("non logical 'conv' output at iteration ",
