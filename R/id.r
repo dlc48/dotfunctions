@@ -108,7 +108,7 @@
 #' @param name name (by default 'comb' for 'combination')
 #' @param ... list of id objects
 #' @param sep the separator to be used for the id column of the resulting object
-#' @param fill if TRUE, all elements of the id column have the same length
+#' @param fill either a (single) character or a logical. If not FALSE, all elements of the id column have the same length and are filled with either a blank space (TRUE) or the character of choice.
 #' @param ask a logical. When ask equals TRUE (default), the function checks if an r object of .GlobalEnv is already named 'id.X' or 'n.X' (where X is the name specified in the previous argument) exists and, if it does, ask for the authorisation to overwrite them. The question is not asked when options()$dotfunctions_dontask == TRUE, where options()$dotfunctions_dontask can be set to TRUE (or FALSE) by running options(dotfunctions_dontask = TRUE) in .First, for example, and is set to TRUE in an R session if the user once answers 'always' to the question.
 #' @returns a data frame with columns 'pos' (scalar vector going from 1 to the number of rows), 'id' (character vector ordered by numerical value whe the input is numerical) and as many columns as there were (unique) id objects to combine, each of them being identifiable via the id extension name (i.e, "x" for id.x, for example) . the returned object is of class 'data.frame' and '.idf'
 #' @export
@@ -141,6 +141,11 @@
         n.dots      = sapply(dots,nrow)
         n           = prod(n.dots)
         id          = data.frame(pos=1:n, id=NA)
+        #browser()
+        fillTF      = ifelse(is.logical(fill)&fill==FALSE,FALSE,TRUE)
+        if(fillTF){
+            with = ifelse(is.character(fill),fill," ")
+        }
         for(dw in 1:length(dots)){            
             add = if(dw==1){
                       rep(levels_dots[[1]],each=prod(n.dots[-1]))
@@ -154,7 +159,7 @@
             colnames(id)[ncol(id)] = names_dots[dw]   
             }
         # id and rownames
-        if(fill){tmp = apply(id[,names_dots],2,.fill,with=" ")
+        if(fillTF){tmp = apply(id[,names_dots],2,.fill,with=with)
         }else{   tmp = id[,names_dots]}
         id$id = rownames(id) = apply(tmp,1,paste0,collapse=sep)
     }}

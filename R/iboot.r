@@ -29,9 +29,9 @@
     # test
     # if(FALSE){
     #     data = data 
-    #     est = est1.fun; est.control=list(mu.formula=mu.formula0,sigma.formula=sigma.formula);
+    #     est = est2.fun; est.control=list(mu.formula=mu.formula1,sigma.formula=sigma.formula);
     #     gen = sim.fun; gen.control=list(empty=empty,X.mu=X.mu,X.sigma=X.sigma,cutoff=cutoff);
-    #     conv  = .iboot.conv.relative; conv.control = list(tol=1e-4, min.iter=20, lag=1);
+    #     conv  = .iboot.conv.relative; conv.control = list(tol=1e-4, min.iter=25, lag=c(1,5));
     #     convK = .iboot.conv.lm; convK.control = list(alpha=0.05, frac=1/4); 
     #     B = 1999; B1 = id.seed$value[sw]; K=100; R=50; n.cores=10;
     #     parallel = TRUE; print=2          

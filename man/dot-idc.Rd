@@ -13,7 +13,7 @@
 
 \item{sep}{the separator to be used for the id column of the resulting object}
 
-\item{fill}{if TRUE, all elements of the id column have the same length}
+\item{fill}{either a (single) character or a logical. If not FALSE, all elements of the id column have the same length and are filled with either a blank space (TRUE) or the character of choice.}
 
 \item{ask}{a logical. When ask equals TRUE (default), the function checks if an r object of .GlobalEnv is already named 'id.X' or 'n.X' (where X is the name specified in the previous argument) exists and, if it does, ask for the authorisation to overwrite them. The question is not asked when options()$dotfunctions_dontask == TRUE, where options()$dotfunctions_dontask can be set to TRUE (or FALSE) by running options(dotfunctions_dontask = TRUE) in .First, for example, and is set to TRUE in an R session if the user once answers 'always' to the question.}
 }
